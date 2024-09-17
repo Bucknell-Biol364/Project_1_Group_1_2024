@@ -3,6 +3,7 @@
 ## Authors
 
 -Jayden Benzan
+-Rebecca Beneroff
 
 
 ## Target Audience
