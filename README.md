@@ -4,7 +4,7 @@
 
 -Jayden Benzan
 -Rebecca Beneroff
-
+-Kayla Lichtner
 
 ## Target Audience
 
