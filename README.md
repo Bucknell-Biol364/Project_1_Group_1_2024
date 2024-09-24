@@ -19,4 +19,13 @@ Our target audience for this project are fellow BIOL 364 students. Students in t
 2. Review loading data, organizing data, and preparing data for statistical analysis.
 3. Explain the conditions required for using linear modeling, t.tests, or ANOVA tests to analyze data. 
 
+
+## Data 
+Loaded data options in our group Project_1 repository on GitHub. We will review these during lab and select one for the tutorial.
+
+
 You will need to edit this README.md document when your tutorial is complete to include instructions for using the tutorial.
+
+
+
+
