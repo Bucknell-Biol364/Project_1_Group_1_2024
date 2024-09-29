@@ -25,20 +25,56 @@ The purpose of this tutorial is to lead one through the process of deciding the 
 ## Loading the necessary packages 
 
 ```{r}
-if (!require("readxl")) install.packages("readxl"); library(readxl)
-if (!require("UsingR")) install.packages("UsingR"); library(UsingR)
-if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
-if (!require("conflicted")) install.packages("conflicted"); library(conflicted) 
-if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse) 
-if (!require("gplots")) install.packages("gplots"); library(gplots)
-if (!require("multcomp")) install.packages("multcomp"); library(multcomp)
+if (!require("UsingR")) install.packages("UsingR"); library(UsingR) # For the simple.eda function
+if (!require("cowplot")) install.packages("cowplot"); library(cowplot) # For graphing aesthetics
+if (!require("conflicted")) install.packages("conflicted"); library(conflicted) # For conflicts
+if (!require("readxl")) install.packages("readxl"); library(readxl) #To read in data
+if (!require("gplots")) install.packages("gplots"); library(gplots) #For graphs/plots
+if (!require("UsingR")) install.packages("UsingR"); library(UsingR) #Generally good to have!
+if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse) # Always download this!
 conflict_prefer_all("dplyr", quiet = TRUE)
 ```
-## Loading in the dataset
+
+## Importing the dataset
+Go to our Git repository called Project_1_Group_1_2024, and download the "iris.extended.csv" data file from the "Dataset options" folder. We are going to make a final folder with the finished tutorial and the data csv file, but for now, please do this to import the data.
 ```{r}
 iris.raw.data <- read.csv("iris_extended.csv")
 ```
+
 Citation for the dataset:
+
+After loading in a dataset, you always want to make sure that everything loaded in properly. To do this, check the top and bottom of your data, and the number of observations you have imported. The data on GitHub reports 1200 lines of data, in our environment the data should read 1200 observations as there is one line for column headings.
+
+```{r}
+head(iris.raw.data)
+tail(iris.raw.data)
+nrow(iris.raw.data)
+```
+This shows us that there are 1200 rows of data which aligns with the expectation of 1200 lines of data according to Github.
+
+It is important to understand the structure of the raw data as it will impact how you prepare for analysis. To do so:
+```{r}
+glimpse(iris.raw.data)
+```
+
+## Looking into different variables- Jayden 
+
+
+## Exploratory Data Analysis
+It is important to run an initial exploratory data analysis to understand the data distributions as the distribution of data directly influences the type of statistical analysis to perform. 
+
+To explore the distributions of some of the variables we are interested in:
+
+```{r}
+
+```
+
+
+
+
+
+
+
 
 ## Acknowledgements
 
