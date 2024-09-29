@@ -1,0 +1,44 @@
+---
+title: "Project_1_Group_1"
+output: html_document
+date: "2024-09-29"
+names: "Jayden Benzan, Rebecca Beneroff, Kayla Lichtner"
+---
+Tutorial: How to determine which statistical tests to use for your analysis?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##Tutorial introduction 
+
+
+##Tutorial objectives
+The purpose of this tutorial is to lead one through the process of deciding the suitable statistical analysis for their given dataset. Specifically, we will discuss when it's appropriate to use t-tests, anova testing, and linear modeling. There are three objectives for this tutorial:
+
+1. Understand how to classify data (understanding different variable types and its effect on how to use them in analysis).
+2. Review loading data, organizing data, and preparing data for statistical analysis.
+3. Explain the conditions required for using linear modeling, t.tests, or ANOVA tests to analyze data. 
+
+
+### Instructions
+
+## Loading the necessary packages 
+
+```{r}
+if (!require("readxl")) install.packages("readxl"); library(readxl)
+if (!require("UsingR")) install.packages("UsingR"); library(UsingR)
+if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
+if (!require("conflicted")) install.packages("conflicted"); library(conflicted) 
+if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse) 
+if (!require("gplots")) install.packages("gplots"); library(gplots)
+if (!require("multcomp")) install.packages("multcomp"); library(multcomp)
+conflict_prefer_all("dplyr", quiet = TRUE)
+```
+## Loading in the dataset
+```{r}
+iris.raw.data <- read.csv("iris.extended.csv")
+```
+Citation for the dataset:
+
+## Acknowledgements
+
