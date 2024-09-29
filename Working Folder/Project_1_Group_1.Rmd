@@ -57,18 +57,42 @@ It is important to understand the structure of the raw data as it will impact ho
 glimpse(iris.raw.data)
 ```
 
+##Check for NAs in the data 
+Now is a good time to check for NAs in the dataset, but there are no NAs in this data. 
+
 ## Looking into different variables- Jayden 
 
 
 ## Exploratory Data Analysis
 It is important to run an initial exploratory data analysis to understand the data distributions as the distribution of data directly influences the type of statistical analysis to perform. 
 
-To explore the distributions of some of the variables we are interested in:
+To explore the distributions of some of the variables we are interested in we can use the simple.eda() function to look at the distributions of the numerical data.
 
 ```{r}
-
+simple.eda(iris.raw.data$sepal_area)
+simple.eda(iris.raw.data$sepal_length)
+simple.eda(iris.raw.data$sepal_width)
+simple.eda(iris.raw.data$petal_width)
+simple.eda(iris.raw.data$petal_length)
+simple.eda(iris.raw.data$petal_area)
 ```
+The results of this preliminary analysis shows that sepal area and sepal width are approximately normally distributed as their histograms follow a bell shaped curve. The other variables sepal length, petal width, petal length, and petal area are not normally distributed as their histograms are skewed and thir boxplots are skewed. Also, their data does not align well with the theoretical line in the Q-Q plot. 
 
+To confirm the distributions of the dataset, we are going to use a Shapiro test for normality. 
+```{r}
+shapiro.test(iris.raw.data$sepal_area)
+shapiro.test(iris.raw.data$sepal_width)
+shapiro.test(iris.raw.data$sepal_length)
+shapiro.test(iris.raw.data$petal_length)
+shapiro.test(iris.raw.data$petal_area)
+shapiro.test(iris.raw.data$petal_width)
+```
+The results of the Shapiro test shows that all six variables do not follow a normal distribution as the p-values produced by the Shapiro test are lower than the confidence level alpha = 0.05. Therefore, to prepare the data for statistical analysis, we will log transform the data to fit the data into a normal distribution.
+
+To log transform the data
+```{r}
+sepal.length.log <- 
+```
 
 
 
