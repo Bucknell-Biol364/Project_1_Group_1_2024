@@ -36,7 +36,7 @@ conflict_prefer_all("dplyr", quiet = TRUE)
 ```
 ## Loading in the dataset
 ```{r}
-iris.raw.data <- read.csv("iris.extended.csv")
+iris.raw.data <- read.csv("iris_extended.csv")
 ```
 Citation for the dataset:
 
