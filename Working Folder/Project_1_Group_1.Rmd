@@ -22,6 +22,10 @@ There are three objectives for this tutorial:
 2. Review loading data, organizing data, and preparing data for statistical analysis.
 3. Explain the conditions required for using linear modeling, t.tests, or ANOVA tests to analyze data. 
 
+##Data introduction 
+This tutorial's dataset highlights three species of iris plants: setosa, versicolor, and virginica. There are several variables reporting anatomical measurements such as sepal length, sepal width, sepal area, petal length, petal width, and petal area. In total, this dataset contains 1200 observations with 400 observations per species. 
+
+
 ### Instructions
 ## Loading the necessary packages 
 
@@ -167,7 +171,7 @@ simple.eda(iris.raw.data$log10sepal_length)
 
 At this point in your analysis you will be investigating the interactions between variables. You should start by formulating a question you might have about the dataset - For instance, you could choose to focus on one of the 3 species featured in the dataset. Noticing that *Iris setosa* inhabits three different soil types - loamy, sand, and clay - you might want to investigate if there is any relationship between soil type and sepal length in *I. setosa*. You could then look for relationships between soil and sepal width as well as soil and sepal total area. Maybe you want to extend that to elevation too. Once you have a question in mind you can decide what tests might best serve your investigation best. 
 
-* Look at your data again and formulate a question or hyopthesis you want to test:
+* Look at your data again and formulate a question or hypothesis you want to test:
 
 ```{r}
 View(iris.raw.data)
@@ -175,14 +179,14 @@ View(iris.raw.data)
 
 ### The T.Test
 
-T.Tests are statistical tests that are useed to compare the means between two groups of data. This is useful in  hypothesis testing because we can use a t.test to determine whether or not a factor or treatment actually has a significant effect on a population or group. It can also tell us whether or not two groups are different from one another. This test makes the following assumptions:
+T.Tests are statistical tests that are used to compare the means between two groups of data. This is useful in  hypothesis testing because we can use a t.test to determine whether or not a factor or treatment actually has a significant effect on a population or group. It can also tell us whether or not two groups are different from one another. This test makes the following assumptions:
 
 1. The data is continuous
-1. The data set has been obtained by random sammples from a population
-1. The variability of the data in each group is similar
-1. The distribution is approximately normal
+2. The data set has been obtained by random samples from a population
+3. The variability of the data in each group is similar
+4. The distribution is approximately normal
 
-To perform the t.test, you will first form a null hypothesis. The null hyopthesis should state that what you are investigating has no significant effect on the population you are investigating. 
+To perform the t.test, you will first form a null hypothesis. The null hypothesis should state that what you are investigating has no significant effect on the population you are investigating. 
 
 In the case of the Iris sepals, we will say that Soil type X does not have any affect on the length of *I. setosa* sepals. 
 
@@ -211,7 +215,7 @@ Perform any filtering or arranging you might need to do here:
 ```
 
 
-* State your null hyopthesis:
+* State your null hypothesis:
 
 You will now run the t.test. Use the below sepal/soil test code as a guide.
 
@@ -225,7 +229,7 @@ t.test(sepal_length ~ soil_type, data = setosa_soil_data)
 
 ```
 
-The example t.test returned a p-value of 0.7936. The p-vlaue tells us the likelihood that you might observe the modeled outcome in your data set given that the null hypothesis is true. We will reject the null hypothesis if p < 0.05. Given our test returned a p-value of 0.7936, we can not confidently say amongst clay or sandy soil that soil type affects the length of sepals in *I. setosa* so we fail to reject the null hypothesis.
+The example t.test returned a p-value of 0.7936. The p-value tells us the likelihood that you might observe the modeled outcome in your data set given that the null hypothesis is true. We will reject the null hypothesis if p < 0.05. Given our test returned a p-value of 0.7936, we can not confidently say amongst clay or sandy soil that soil type affects the length of sepals in *I. setosa* so we fail to reject the null hypothesis.
 
 * Interpret your t.test below:
 
@@ -236,9 +240,9 @@ Linear modeling looks for direct correlations between variables.
 It is a parametric test and assumes: 
 
 1. The relationship between x and the mean of y is linear
-1. That the observed data points are independant of each other
-1. That the data is normally distributed
-1. Homoscedasticity - That the spread of data variance is approximately the same
+2. That the observed data points are independent of each other
+3. That the data is normally distributed
+4. Homoscedasticity - That the spread of data variance is approximately the same
 
 So if we want to look at our soil and sepal question, we can create a linear model that tells us 
 
@@ -277,3 +281,8 @@ So, returning to our soil and sepal tests we can add clay back into the mix! We 
 I modified this code to create the code to read the csv in directly from github: https://lokraj.me/post/download-github-data/
 
 I utilized this site for t.test clarification https://www.jmp.com/en_us/statistics-knowledge-portal/t-test.html
+
+For the discussion of the purpose for normal distibutions and transforming data so it is normally distributed, the following article was used. 
+
+Citation:
+Mishra, P., Pandey, C. M., Singh, U., Gupta, A., Sahu, C., & Keshri, A. (2019). Descriptive statistics and normality tests for statistical data. Annals of cardiac anaesthesia, 22(1), 67–72. https://doi.org/10.4103/aca.ACA_157_18
