@@ -129,20 +129,20 @@ iris.raw.data <- iris.raw.data |>
   mutate(soil_type = as.factor(soil_type))
 
 #summary(iris.raw.data$soil_type)
+```
 
-simple.eda(iris.raw.data$petal_length)
-
+```{r}
+iris.raw.data$log10sepal_length <- log10(iris.raw.data$sepal_length)
+simple.eda(iris.raw.data$log10sepal_length)
 ```
 
 -----
-
-
 
 ## Running Data Analysis
 
 ### Form a Question:
 
-At this point in your analysis you will be investigating the interactions between variables. You should start by formulating a question you might have about the dataset - For instance, you could choose to focus on one of the 3 species featured in the dataset. Noticing that *Iris setosa* inhabits three different soil types - loamy, sand, and clay - you might want to investigate if there is any relationship between soil type and petal length in *I. setosa*. You could then look for relationships between soil and petal width as well as soil and petal total area. Maybe you want to extend that to elevation too. Once you have a question in mind you can decide what tests might best serve your investigation best. 
+At this point in your analysis you will be investigating the interactions between variables. You should start by formulating a question you might have about the dataset - For instance, you could choose to focus on one of the 3 species featured in the dataset. Noticing that *Iris setosa* inhabits three different soil types - loamy, sand, and clay - you might want to investigate if there is any relationship between soil type and sepal length in *I. setosa*. You could then look for relationships between soil and sepal width as well as soil and sepal total area. Maybe you want to extend that to elevation too. Once you have a question in mind you can decide what tests might best serve your investigation best. 
 
 * Look at your data again and formulate a question or hyopthesis you want to test:
 
@@ -152,31 +152,48 @@ View(iris.raw.data)
 
 ### The T.Test
 
-T.Tests are statistical tests that are useed to compare the means between two groups of data. This is useful in  hypothesis testing because we can use a t.test to determine whether or not a factor or treatment actually has a significant effect on a population or group. It can also tell us whether or not two groups are different from one another. This test is therefore best used with continuous data that either is normal or has been normalized regarding two groups that you are exploring potential differences between. 
+T.Tests are statistical tests that are useed to compare the means between two groups of data. This is useful in  hypothesis testing because we can use a t.test to determine whether or not a factor or treatment actually has a significant effect on a population or group. It can also tell us whether or not two groups are different from one another. This test makes the following assumptions:
+
+1. The data is continuous
+1. The data set has been obtained by random sammples from a population
+1. The variability of the data in each group is similar
+1. The distribution is approximately normal
 
 To perform the t.test, you will first form a null hypothesis. The null hyopthesis should state that what you are investigating has no significant effect on the population you are investigating. 
 
-In the case of the Iris petals, we will say that Soil type X does not have any affect on the length of *I. setosa* petals. 
+In the case of the Iris sepals, we will say that Soil type X does not have any affect on the length of *I. setosa* sepals. 
 
 We are going to start by filtering our data into a new variable that only contains the *I. setosa* data. 
 
 ```{r}
 setosa_data <- iris.raw.data |> 
   filter(species=="setosa")
-summary(iris.raw.data)
+#summary(iris.raw.data)
 
 summary(setosa_data$soil_type)
 
 ```
 
+Now for the sake of demonstration since we need 2 variables, lets say we're only interested in comparing loamy and sandy soils. We're conducting an experiment in house and we can't replicate clay, so we are only interested in loam and sand. We will then filter out clay from the data set. The | operator acts as "or" which means it will pull out loamy or sandy rows but not clay.
+
+```{r}
+setosa_soil_data <- setosa_data |> 
+  filter(soil_type=="loamy" | soil_type=="sandy")
+summary(setosa_soil_data$soil_type)
+```
+Perform any filtering or arranging you might need to do here:
+
+```{r}
+
+```
 
 
 * State your null hyopthesis:
 
-You will now run the t.test. Use the below petal/soil test code as a guide.
+You will now run the t.test. Use the below sepal/soil test code as a guide.
 
 ```{r}
-t.test(petal_length ~ soil_type, data = iris.raw.data)
+t.test(sepal_length ~ soil_type, data = setosa_soil_data)
 ```
 
 * Your Turn
@@ -185,19 +202,55 @@ t.test(petal_length ~ soil_type, data = iris.raw.data)
 
 ```
 
+The example t.test returned a p-value of 0.7936. The p-vlaue tells us the likelihood that you might observe the modeled outcome in your data set given that the null hypothesis is true. We will reject the null hypothesis if p < 0.05. Given our test returned a p-value of 0.7936, we can not confidently say amongst clay or sandy soil that soil type affects the length of sepals in *I. setosa* so we fail to reject the null hypothesis.
 
-
-### ANOVA Test
+* Interpret your t.test below:
 
 
 ### Linear Modeling
 
+Linear modeling looks for direct correlations between variables. 
+It is a parametric test and assumes: 
 
-### General Linear Modeling
+1. The relationship between x and the mean of y is linear
+1. That the observed data points are independant of each other
+1. That the data is normally distributed
+1. Homoscedasticity - That the spread of data variance is approximately the same
+
+So if we want to look at our soil and sepal question, we can create a linear model that tells us 
+
+```{r}
+lmSoilSepal <- lm(log10sepal_length ~ soil_type, data = setosa_data)
+
+lmSoilSepal
+
+summary(lmSoilSepal)
+```
+Now what does this look like? We can make a quick graph to take a look at our data
+
+```{r}
+ggplot(setosa_data, aes(x = soil_type, y = log10sepal_length)) +
+  geom_point(position = "jitter",size=0.05) +
+  scale_y_continuous(breaks = seq.int(0, 20, 2)) +
+  ggtitle('Sepal Length relationship with soil type') +
+  theme_cowplot()
+
+```
 
 
-### Visualization
+### Analysis of Variance (ANOVA) Test
+
+Anova tests follow the same principle as t-tests but they are used when you have more than 2 groups. It can also be used to compare nested models.
+
+So, returning to our soil and sepal tests we can add clay back into the mix! We will therefore use our filtered setosa data set rather than the soil filtered set.
+
+```{r}
+
+```
+
 
 ## Acknowledgements
 
 I modified this code to create the code to read the csv in directly from github: https://lokraj.me/post/download-github-data/
+
+I utilized this site for t.test clarification https://www.jmp.com/en_us/statistics-knowledge-portal/t-test.html
