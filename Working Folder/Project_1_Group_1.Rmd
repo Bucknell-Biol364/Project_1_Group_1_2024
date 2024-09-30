@@ -1,47 +1,66 @@
 ---
-title: "Project_1_Group_1"
+title: "Group 1 Project 1 Tutorial"
 output: html_document
 date: "2024-09-29"
 names: "Jayden Benzan, Rebecca Beneroff, Kayla Lichtner"
 ---
-Tutorial: How to determine which statistical tests to use for your analysis?
+Tutorial: An Introduction to Data Preparation, Exploration, and Analysis
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 ##Tutorial introduction 
 
+Do you have a dataset but you're not sure where to start with analysis? This tutorial is for you! This tutorial utilizes *Iris* petal data. You will start by learning how to import, classify, and organize your data to prepare it for use. You will then perform some base level data exploration by looking at your variable's distributions assessing for normalcy, and transforming as necessary. Finally, you will develop and explore a question about the relationships between the variables presented in the data. Using this question, you will learn some of the different statistical tests that can be run, why these tests are run, and data visualization. 
 
-##Tutorial objectives
-The purpose of this tutorial is to lead one through the process of deciding the suitable statistical analysis for their given dataset. Specifically, we will discuss when it's appropriate to use t-tests, anova testing, and linear modeling. There are three objectives for this tutorial:
+###Tutorial objectives
+
+There are three objectives for this tutorial:
 
 1. Understand how to classify data (understanding different variable types and its effect on how to use them in analysis).
 2. Review loading data, organizing data, and preparing data for statistical analysis.
 3. Explain the conditions required for using linear modeling, t.tests, or ANOVA tests to analyze data. 
 
-
 ### Instructions
+
 
 ## Loading the necessary packages 
 
 ```{r}
-if (!require("UsingR")) install.packages("UsingR"); library(UsingR) # For the simple.eda function
-if (!require("cowplot")) install.packages("cowplot"); library(cowplot) # For graphing aesthetics
-if (!require("conflicted")) install.packages("conflicted"); library(conflicted) # For conflicts
-if (!require("readxl")) install.packages("readxl"); library(readxl) #To read in data
-if (!require("gplots")) install.packages("gplots"); library(gplots) #For graphs/plots
-if (!require("UsingR")) install.packages("UsingR"); library(UsingR) #Generally good to have!
-if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse) # Always download this!
+if (!require("UsingR")) install.packages("UsingR"); 
+  library(UsingR) # For the simple.eda function
+if (!require("cowplot")) install.packages("cowplot"); 
+  library(cowplot) # For graphing aesthetics
+if (!require("conflicted")) install.packages("conflicted"); 
+  library (conflicted) # For conflicts
+if (!require("readxl")) install.packages("readxl"); 
+  library(readxl) #To read in data
+if (!require("gplots")) install.packages("gplots"); 
+  library(gplots) #For graphs/plots
+if (!require("UsingR")) install.packages("UsingR"); 
+  library(UsingR) #Generally good to have!
+if (!require("tidyverse")) install.packages("tidyverse"); 
+  library(tidyverse) # Always download this!
 conflict_prefer_all("dplyr", quiet = TRUE)
 ```
 
 ## Importing the dataset
+
 Go to our Git repository called Project_1_Group_1_2024, and download the "iris.extended.csv" data file from the "Dataset options" folder. We are going to make a final folder with the finished tutorial and the data csv file, but for now, please do this to import the data.
+
 ```{r}
 iris.raw.data <- read.csv("iris_extended.csv")
 ```
 
-Citation for the dataset:
+Alternatively, you can use this script to download the data set from online:
+
+```{r}
+library (readr)
+iris.raw.data <- read.csv(url("https://raw.githubusercontent.com/Bucknell-Biol364/Project_1_Group_1_2024/refs/heads/main/Working%20Folder/iris_extended.csv"))
+```
+
+*Citation for the dataset: https://www.kaggle.com/datasets/samybaladram/iris-dataset-extended?select=iris_extended.csv*
 
 After loading in a dataset, you always want to make sure that everything loaded in properly. To do this, check the top and bottom of your data, and the number of observations you have imported. The data on GitHub reports 1200 lines of data, in our environment the data should read 1200 observations as there is one line for column headings.
 
@@ -52,18 +71,21 @@ nrow(iris.raw.data)
 ```
 This shows us that there are 1200 rows of data which aligns with the expectation of 1200 lines of data according to Github.
 
-It is important to understand the structure of the raw data as it will impact how you prepare for analysis. To do so:
+It is important to understand the structure of the raw data as it will impact how you prepare for analysis. To do so
+
 ```{r}
 glimpse(iris.raw.data)
 ```
 
 ##Check for NAs in the data 
+
 Now is a good time to check for NAs in the dataset, but there are no NAs in this data. 
 
 ## Looking into different variables- Jayden 
 
 
 ## Exploratory Data Analysis
+
 It is important to run an initial exploratory data analysis to understand the data distributions as the distribution of data directly influences the type of statistical analysis to perform. 
 
 To explore the distributions of some of the variables we are interested in we can use the simple.eda() function to look at the distributions of the numerical data.
@@ -96,9 +118,86 @@ sepal.length.log <-
 
 
 
+----
+
+Rebecca 
+
+Stuff I needed to run my section
+
+```{r}
+iris.raw.data <- iris.raw.data |> 
+  mutate(soil_type = as.factor(soil_type))
+
+#summary(iris.raw.data$soil_type)
+
+simple.eda(iris.raw.data$petal_length)
+
+```
+
+-----
 
 
 
+## Running Data Analysis
+
+### Form a Question:
+
+At this point in your analysis you will be investigating the interactions between variables. You should start by formulating a question you might have about the dataset - For instance, you could choose to focus on one of the 3 species featured in the dataset. Noticing that *Iris setosa* inhabits three different soil types - loamy, sand, and clay - you might want to investigate if there is any relationship between soil type and petal length in *I. setosa*. You could then look for relationships between soil and petal width as well as soil and petal total area. Maybe you want to extend that to elevation too. Once you have a question in mind you can decide what tests might best serve your investigation best. 
+
+* Look at your data again and formulate a question or hyopthesis you want to test:
+
+```{r}
+View(iris.raw.data)
+```
+
+### The T.Test
+
+T.Tests are statistical tests that are useed to compare the means between two groups of data. This is useful in  hypothesis testing because we can use a t.test to determine whether or not a factor or treatment actually has a significant effect on a population or group. It can also tell us whether or not two groups are different from one another. This test is therefore best used with continuous data that either is normal or has been normalized regarding two groups that you are exploring potential differences between. 
+
+To perform the t.test, you will first form a null hypothesis. The null hyopthesis should state that what you are investigating has no significant effect on the population you are investigating. 
+
+In the case of the Iris petals, we will say that Soil type X does not have any affect on the length of *I. setosa* petals. 
+
+We are going to start by filtering our data into a new variable that only contains the *I. setosa* data. 
+
+```{r}
+setosa_data <- iris.raw.data |> 
+  filter(species=="setosa")
+summary(iris.raw.data)
+
+summary(setosa_data$soil_type)
+
+```
+
+
+
+* State your null hyopthesis:
+
+You will now run the t.test. Use the below petal/soil test code as a guide.
+
+```{r}
+t.test(petal_length ~ soil_type, data = iris.raw.data)
+```
+
+* Your Turn
+
+```{r}
+
+```
+
+
+
+### ANOVA Test
+
+
+### Linear Modeling
+
+
+### General Linear Modeling
+
+
+### Visualization
 
 ## Acknowledgements
 
+I modified this code to create the code to read the csv in directly from github: https://lokraj.me/post/download-github-data/
