@@ -23,8 +23,6 @@ There are three objectives for this tutorial:
 3. Explain the conditions required for using linear modeling, t.tests, or ANOVA tests to analyze data. 
 
 ### Instructions
-
-
 ## Loading the necessary packages 
 
 ```{r}
@@ -71,7 +69,7 @@ nrow(iris.raw.data)
 ```
 This shows us that there are 1200 rows of data which aligns with the expectation of 1200 lines of data according to Github.
 
-It is important to understand the structure of the raw data as it will impact how you prepare for analysis. To do so
+It is important to understand the structure of the raw data as it will impact how you prepare for analysis. To do so:
 
 ```{r}
 glimpse(iris.raw.data)
@@ -86,7 +84,7 @@ Now is a good time to check for NAs in the dataset, but there are no NAs in this
 
 ## Exploratory Data Analysis
 
-It is important to run an initial exploratory data analysis to understand the data distributions as the distribution of data directly influences the type of statistical analysis to perform. 
+It is important to run an initial exploratory data analysis to understand the distributions of your dataset as the distribution of data directly influences the type of statistical analyses to perform. 
 
 To explore the distributions of some of the variables we are interested in we can use the simple.eda() function to look at the distributions of the numerical data.
 
@@ -98,9 +96,9 @@ simple.eda(iris.raw.data$petal_width)
 simple.eda(iris.raw.data$petal_length)
 simple.eda(iris.raw.data$petal_area)
 ```
-The results of this preliminary analysis shows that sepal area and sepal width are approximately normally distributed as their histograms follow a bell shaped curve. The other variables sepal length, petal width, petal length, and petal area are not normally distributed as their histograms are skewed and thir boxplots are skewed. Also, their data does not align well with the theoretical line in the Q-Q plot. 
+The results of this preliminary analysis shows that sepal area and sepal width are approximately normally distributed as their histograms follow a bell shaped curve. The other variables sepal length, petal width, petal length, and petal area are not normally distributed as their histograms are skewed and their boxplots are skewed. Also, their data does not align well with the theoretical line in the Q-Q plot. 
 
-To confirm the distributions of the dataset, we are going to use a Shapiro test for normality. 
+To confirm the distributions of the dataset, we are going to use a Shapiro test for normality. To determine normality, if the p-value produced by a Shapiro test is greater than the confidence level alpha = 0.05, the distribution is normal. If the p-value produced by the Shapiro test is less than the confidence level alpha = 0.05, the data is not normally distributed. 
 ```{r}
 shapiro.test(iris.raw.data$sepal_area)
 shapiro.test(iris.raw.data$sepal_width)
@@ -109,14 +107,39 @@ shapiro.test(iris.raw.data$petal_length)
 shapiro.test(iris.raw.data$petal_area)
 shapiro.test(iris.raw.data$petal_width)
 ```
-The results of the Shapiro test shows that all six variables do not follow a normal distribution as the p-values produced by the Shapiro test are lower than the confidence level alpha = 0.05. Therefore, to prepare the data for statistical analysis, we will log transform the data to fit the data into a normal distribution.
+The results of the Shapiro test show that all six variables do not follow a normal distribution as the p-values produced by the Shapiro test are lower than the confidence level alpha = 0.05. Therefore, to prepare the data for statistical analysis, we will log transform the data to fit the data into a normal distribution.
 
 To log transform the data
 ```{r}
-sepal.length.log <- 
+iris.raw.data$log10sepal_length <- log10(iris.raw.data$sepal_length)
+simple.eda(iris.raw.data$log10sepal_length)
+iris.raw.data$log10petal_length <- log10(iris.raw.data$petal_length)
+simple.eda(iris.raw.data$log10petal_length)
+```
+After log transforming the sepal length data, we find that it now follows a normal distribution. It is important for a dataset to be normally distributed for parametric tests as parametric tests use means to calculate statistical differences. Therefore, means need to be appropriately representative for a given data set, provided by a normal distribution.For instance a mean from a a given population that is skewed is not accurately representative of the data. 
+
+After log transforming the petal length data, we found that it did not convert into a normal distribution. What aspect of the data do think is driving this? After reflection, please see below for an explanation!
+
+Filter the data by species:
+```{r}
+setosa_data <- iris.raw.data |> 
+  filter(species=="setosa")
+
+versicolor_data <- iris.raw.data |>
+  filter(species=="versicolor")
+
+virginica_data <- iris.raw.data |>
+  filter(species=="virginica")
 ```
 
+Now, look at petal length for all three iris species separately:
 
+```{r}
+simple.eda(setosa_data$log10petal_length)
+simple.eda(versicolor_data$log10petal_length)
+simple.eda(virginica_data$log10petal_length)
+```
+By separating the data by species, we find that the log transformation of petal length is now normally distributed. 
 
 ----
 
