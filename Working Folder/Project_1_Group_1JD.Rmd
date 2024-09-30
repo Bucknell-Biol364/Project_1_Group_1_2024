@@ -1,0 +1,139 @@
+---
+title: "Project_1_Group_1"
+output: html_document
+date: "2024-09-29"
+names: "Jayden Benzan, Rebecca Beneroff, Kayla Lichtner"
+---
+Tutorial: How to determine which statistical tests to use for your analysis?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##Tutorial introduction 
+
+
+##Tutorial objectives
+The purpose of this tutorial is to lead one through the process of deciding the suitable statistical analysis for their given dataset. Specifically, we will discuss when it's appropriate to use t-tests, anova testing, and linear modeling. There are three objectives for this tutorial:
+
+1. Understand how to classify data (understanding different variable types and its effect on how to use them in analysis).
+2. Review loading data, organizing data, and preparing data for statistical analysis.
+3. Explain the conditions required for using linear modeling, t.tests, or ANOVA tests to analyze data. 
+
+
+### Instructions
+
+## Loading the necessary packages 
+
+```{r}
+if (!require("UsingR")) install.packages("UsingR"); library(UsingR) # For the simple.eda function
+if (!require("cowplot")) install.packages("cowplot"); library(cowplot) # For graphing aesthetics
+if (!require("conflicted")) install.packages("conflicted"); library(conflicted) # For conflicts
+if (!require("readxl")) install.packages("readxl"); library(readxl) #To read in data
+if (!require("gplots")) install.packages("gplots"); library(gplots) #For graphs/plots
+if (!require("UsingR")) install.packages("UsingR"); library(UsingR) #Generally good to have!
+if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse) # Always download this!
+conflict_prefer_all("dplyr", quiet = TRUE)
+```
+
+## Importing the dataset
+Go to our Git repository called Project_1_Group_1_2024, and download the "iris.extended.csv" data file from the "Dataset options" folder. We are going to make a final folder with the finished tutorial and the data csv file, but for now, please do this to import the data.
+```{r}
+iris.raw.data <- read.csv("iris_extended.csv")
+```
+
+Citation for the dataset:
+
+After loading in a dataset, you always want to make sure that everything loaded in properly. To do this, check the top and bottom of your data, and the number of observations you have imported. The data on GitHub reports 1200 lines of data, in our environment the data should read 1200 observations as there is one line for column headings.
+
+```{r}
+head(iris.raw.data)
+tail(iris.raw.data)
+nrow(iris.raw.data)
+```
+This shows us that there are 1200 rows of data which aligns with the expectation of 1200 lines of data according to Github.
+
+It is important to understand the structure of the raw data as it will impact how you prepare for analysis. To do so:
+```{r}
+glimpse(iris.raw.data)
+```
+
+## Looking into different variables- Jayden 
+# If you are ever looking at a data set and you find it hard to understand what type of variables you are looking at here is a few simple ways to get a bettering understanding. In th code chuck above there is a code used called "glimpse". There are typically two variables that we look at when conducting data exploration which are response and explanatory.
+
+Explanatory - Also known as an independent variable or predictor, this variable is used to explain or predict the outcome variable. It's the expected cause of the response variable.
+
+Response - Also known as a dependent variable, this variable is the outcome variable that's explained or predicted by the explanatory variable. It's the expected effect of the explanatory variable.
+
+Response: 
+Species, sepal_length, sepal_width, petal_length, petal_width, sepal_area, petal_area, sepal_aspect_ratio, petal_aspect_ratio, sepal_to_petal_length_ratio, sepal_to_petal_width_ratio, sepal_to_petal_length_diff, sepal_to_petal_width_diff, petal_curvature_mm, petal_texture_trichomes_per_mm2, leaf_area_cm2, sepal_area_sprt, petal_area_sprt, area_ratios
+
+Explanatory: 
+Elevation, Soil_type
+
+In our data set we have a ton of variables to look at. Using our definition of both types of variable determine where the following variables would be placed? (Take whats organized above and change it for the presentation)
+
+
+#Once you are able to read the data into R  your next step would be to use the following code:
+data(iris.raw.data)
+
+Now to determine what test to use on our variables.
+Based off of class so far the types of test that we could use to explore this data would be One-way anova, t-test, a simple linear regression, or a simple eda, as well as a normality test(shapiro.test)
+
+Purpose of each type of test:
+
+One-way anova - One-way ANOVA is used to determine if there are statistically significant differences between the means of three or more independent groups. It helps you understand if at least one group differs from the others, but it doesn’t tell you which specific groups differ.
+#ex.You want to compare the mean sepal_length between different Species to check if any species has significantly different sepal lengths.
+Note that If the ANOVA result is significant, post-hoc tests (e.g., Tukey's HSD) can determine which groups are different from each other.
+
+t-test - The t-test is used to compare the means of two groups. There are two common types:
+
+Independent t-test: Compares means between two independent groups (e.g., sepal_length for "setosa" vs. "versicolor").
+Paired t-test: Compares means of the same group at different times or conditions.
+You have two independent groups (e.g., comparing two species) and a continuous variable (e.g., sepal_length).
+Example:
+#ex.Comparing the mean sepal_length between two species.
+
+simple linear regression- Simple linear regression models the relationship between two continuous variables. It is used to predict the value of a response variable (dependent) based on the value of an explanatory variable (independent).
+You want to predict one continuous variable (e.g., sepal_length) from another continuous variable (e.g., petal_length).
+Example:
+#ex.You want to predict sepal_length from petal_length.
+Note:
+This will provide an equation for the linear relationship between the two variables, which you can use for prediction. The summary() function will give you important statistics like the slope, intercept, and R-squared value (which shows how much of the variation in the response variable is explained by the explanatory variable).
+
+simple eda - Exploratory Data Analysis (EDA) is the process of analyzing data sets to summarize their main characteristics using visualizations and statistical methods. The goal is to better understand the structure of the data, detect patterns, spot anomalies, and test initial hypotheses.
+
+When to Use:
+
+At the beginning of a data analysis project to explore your dataset and get a sense of its structure.
+Example of techniques in EDA:
+#ex. Summary statistics: summary(data) to get a quick overview of the distribution of your variables.
+#ex. Visualizations: Scatter plots, box plots, histograms, and correlation matrices.
+
+Normality test(shapiro.test) - The Shapiro-Wilk test is used to test for normality. It assesses whether a sample comes from a normally distributed population. Many statistical tests (like ANOVA and t-tests) assume that the data is normally distributed, so testing for normality is a common step.
+
+When to Use:
+Before running parametric tests like ANOVA, t-tests, or linear regression, where the assumption of normal distribution is crucial.
+Example:
+#ex.You want to test if the sepal_length is normally distributed.
+Note: 
+If the p-value is greater than 0.05, the data is approximately normal.
+If the p-value is less than 0.05, the data significantly deviates from normality.
+
+## Exploratory Data Analysis
+It is important to run an initial exploratory data analysis to understand the data distributions as the distribution of data directly influences the type of statistical analysis to perform. 
+
+To explore the distributions of some of the variables we are interested in:
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+## Acknowledgements
+
