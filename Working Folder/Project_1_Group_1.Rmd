@@ -161,6 +161,14 @@ iris.raw.data <- iris.raw.data |>
 ```{r}
 iris.raw.data$log10sepal_length <- log10(iris.raw.data$sepal_length)
 simple.eda(iris.raw.data$log10sepal_length)
+
+iris.raw.data$log10sepal_width <- log10(iris.raw.data$sepal_width)
+simple.eda(iris.raw.data$log10sepal_width)
+
+iris.raw.data$log10petal_length<- log10(iris.raw.data$petal_length)
+simple.eda(iris.raw.data$log10petal_length)
+
+simple.eda(setosa_data$log10petal_length)
 ```
 
 -----
@@ -264,6 +272,43 @@ ggplot(setosa_data, aes(x = soil_type, y = log10sepal_length)) +
 
 ```
 
+
+
+-----------------------------
+
+### Linear Modeling
+
+Linear modeling looks for direct correlations between variables. 
+It is a parametric test and assumes: 
+
+1. The relationship between x and the mean of y is linear
+1. That the observed data points are independant of each other
+1. That the data is normally distributed
+1. Homoscedasticity - That the spread of data variance is approximately the same
+
+Lets investigate a new question, since there was no significance in sepal/soil data, lets investigate the relationship between sepal length and width. We can investigate this with a linear model.
+
+
+```{r}
+lmSepalLW <- lm(log10sepal_length ~ log10sepal_width, data = setosa_data)
+lmSepalLW
+
+summary(lmSepalLW)
+```
+Now what does this look like? We can make a quick graph to take a look at our data
+
+```{r}
+ggplot(setosa_data) +
+  aes(x = log10petal_length, y=log10sepal_length) +
+  geom_point(position = "jitter",size=1) +
+  theme_cowplot()+
+   geom_smooth(method='lm',se=FALSE)
+
+```
+
+There is no relationship between 
+
+----------------------------------------
 
 ### Analysis of Variance (ANOVA) Test
 
