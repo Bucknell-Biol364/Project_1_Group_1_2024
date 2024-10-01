@@ -1,8 +1,8 @@
 ---
 title: "Group 1 Project 1 Tutorial"
-output: html_document
+authors: "Jayden Benzan, Rebecca Beneroff, Kayla Lichtner"
 date: "2024-09-29"
-names: "Jayden Benzan, Rebecca Beneroff, Kayla Lichtner"
+output: github_document
 ---
 Tutorial: An Introduction to Data Preparation, Exploration, and Analysis
 
