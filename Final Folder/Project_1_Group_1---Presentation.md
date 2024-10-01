@@ -584,7 +584,7 @@ simple.eda(virginica_data$log10petal_length)
 By separating the data by species, we find that the log transformation
 of petal length is now normally distributed.
 
-# Running Data Analysis
+# Running Data Analysis Rebecca
 
 ## Form a Question:
 
@@ -821,6 +821,8 @@ ggplot(iris.raw.data) +
     ## `geom_smooth()` using formula = 'y ~ x'
 
 ![](Project_1_Group_1---Presentation_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+- Your Turn: What analyses might you want to run?
 
 ## Summary
 
