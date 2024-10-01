@@ -50,11 +50,17 @@ if (!require("UsingR")) install.packages("UsingR");
 
     ## Loading required package: UsingR
 
+    ## Warning: package 'UsingR' was built under R version 4.3.3
+
     ## Loading required package: MASS
 
     ## Loading required package: HistData
 
+    ## Warning: package 'HistData' was built under R version 4.3.3
+
     ## Loading required package: Hmisc
+
+    ## Warning: package 'Hmisc' was built under R version 4.3.3
 
     ## 
     ## Attaching package: 'Hmisc'
@@ -70,7 +76,11 @@ if (!require("GGally")) install.packages("GGally");
 
     ## Loading required package: GGally
 
+    ## Warning: package 'GGally' was built under R version 4.3.3
+
     ## Loading required package: ggplot2
+
+    ## Warning: package 'ggplot2' was built under R version 4.3.3
 
     ## Registered S3 method overwritten by 'GGally':
     ##   method from   
@@ -82,12 +92,16 @@ if (!require("cowplot")) install.packages("cowplot");
 
     ## Loading required package: cowplot
 
+    ## Warning: package 'cowplot' was built under R version 4.3.3
+
 ``` r
   library(cowplot) # For graphing aesthetics
 if (!require("conflicted")) install.packages("conflicted"); 
 ```
 
     ## Loading required package: conflicted
+
+    ## Warning: package 'conflicted' was built under R version 4.3.3
 
 ``` r
   library (conflicted) # For conflicts
@@ -96,6 +110,8 @@ if (!require("readxl")) install.packages("readxl");
 
     ## Loading required package: readxl
 
+    ## Warning: package 'readxl' was built under R version 4.3.3
+
 ``` r
   library(readxl) #To read in data
 if (!require("gplots")) install.packages("gplots"); 
@@ -103,12 +119,28 @@ if (!require("gplots")) install.packages("gplots");
 
     ## Loading required package: gplots
 
+    ## Warning: package 'gplots' was built under R version 4.3.3
+
 ``` r
   library(gplots) #For graphs/plots
 if (!require("tidyverse")) install.packages("tidyverse"); 
 ```
 
     ## Loading required package: tidyverse
+
+    ## Warning: package 'tidyverse' was built under R version 4.3.3
+
+    ## Warning: package 'tidyr' was built under R version 4.3.3
+
+    ## Warning: package 'readr' was built under R version 4.3.3
+
+    ## Warning: package 'purrr' was built under R version 4.3.3
+
+    ## Warning: package 'stringr' was built under R version 4.3.3
+
+    ## Warning: package 'forcats' was built under R version 4.3.3
+
+    ## Warning: package 'lubridate' was built under R version 4.3.3
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -283,24 +315,6 @@ glimpse(iris.raw.data)
     ## $ petal_area_sqrt                 <dbl> 0.6529931, 0.7523962, 0.7473955, 0.510…
     ## $ area_ratios                     <dbl> 41.26548, 39.20509, 25.56391, 61.36717…
 
-``` r
-iris.raw.data <- iris.raw.data |> 
-  mutate(soil_type = as.factor(soil_type),
-         species = as.factor(species))
-
-summary(iris.raw.data$soil_type)
-```
-
-    ##  clay loamy sandy 
-    ##   444   403   353
-
-``` r
-summary(iris.raw.data$species)
-```
-
-    ##     setosa versicolor  virginica 
-    ##        400        400        400
-
 ## Check for NAs in the data
 
 Now is a good time to check for NAs in the dataset, but there are no NAs
@@ -319,102 +333,53 @@ when conducting data exploration which are response and explanatory.
 this variable is used to explain or predict the outcome variable. It’s
 the expected cause of the response variable.
 
+- Ex: Elevation,
+
 **Response** - Also known as a dependent variable, this variable is the
 outcome variable that’s explained or predicted by the explanatory
 variable. It’s the expected effect of the explanatory variable.
 
-**Response:** Species, sepal_length, sepal_width, petal_length,
-petal_width, sepal_area, petal_area, sepal_aspect_ratio,
-petal_aspect_ratio, sepal_to_petal_length_ratio,
-sepal_to_petal_width_ratio, sepal_to_petal_length_diff,
-sepal_to_petal_width_diff, petal_curvature_mm,
-petal_texture_trichomes_per_mm2, leaf_area_cm2, sepal_area_sprt,
-petal_area_sprt, area_ratios
+- Ex: sepal_length, sepal_width, petal_length, petal_width, sepal_area,
+  , sepal_aspect_ratio, petal_aspect_ratio, sepal_to_petal_length_ratio,
+  sepal_to_petal_length_diff, sepal_to_petal_width_diff,
+  petal_curvature_mm, petal_texture_trichomes_per_mm2, leaf_area_cm2,
+  sepal_area_sprt, petal_area_sprt, area_ratios
 
-**Explanatory:** Elevation, Soil_type
+**Factoring:** - the process of converting a variable into a factor,
+which is a data type used to represent categorical data. Factors store
+both the unique categories (called levels) and the values that belong to
+those categories. Factoring is commonly used when you want to classify
+data into distinct groups, such as types, species, or categories, for
+statistical modeling or analysis.
+
+``` r
+iris.raw.data <- iris.raw.data |> 
+  mutate(soil_type = as.factor(soil_type),
+         species = as.factor(species))
+
+summary(iris.raw.data$soil_type)
+```
+
+    ##  clay loamy sandy 
+    ##   444   403   353
+
+``` r
+summary(iris.raw.data$species)
+```
+
+    ##     setosa versicolor  virginica 
+    ##        400        400        400
+
+- Ex: After running this code, both the soil_type and species columns
+  will be stored as factors in the iris.raw.data dataset, making it
+  easier to perform tasks like grouping, summarization, or statistical
+  modeling that depend on categorical variables.
+
+- Where would these go?: sepal_to_petal_width_ratio, Soil_type,
+  petal_area, Species
 
 Once you are able to read the data into R your next step would be to use
 the following code: `data(iris.raw.data)` .
-
-Now to determine what test to use on our variables. Based off of class
-so far the types of test that we could use to explore this data would be
-One-way anova, t-test, a simple linear regression, or a simple eda, as
-well as a normality test(shapiro.test)
-
-### Purpose of each type of test:
-
-**One-way anova** - One-way ANOVA is used to determine if there are
-statistically significant differences between the means of three or more
-independent groups. It helps you understand if at least one group
-differs from the others, but it doesn’t tell you which specific groups
-differ.
-
-- ex: You want to compare the mean sepal_length between different
-  Species to check if any species has significantly different sepal
-  lengths.
-
-*Note that If the ANOVA result is significant, post-hoc tests (e.g.,
-Tukey’s HSD) can determine which groups are different from each other.*
-
-**t-test** - The t-test is used to compare the means of two groups.
-There are two common types:
-
-- **Independent t-test** - Compares means between two independent groups
-  (e.g., sepal_length for “setosa” vs. “versicolor”).
-
-- **Paired t-test** - Compares means of the same group at different
-  times or conditions. You have two independent groups (e.g., comparing
-  two species) and a continuous variable (e.g., sepal_length).
-
-  - ex: Comparing the mean sepal_length between two species.
-
-**simple linear regression** - Simple linear regression models the
-relationship between two continuous variables. It is used to predict the
-value of a response variable (dependent) based on the value of an
-explanatory variable (independent).
-
-You want to predict one continuous variable (e.g., sepal_length) from
-another continuous variable (e.g., petal_length).
-
-- ex: You want to predict sepal_length from petal_length.
-
-*Note:* This will provide an equation for the linear relationship
-between the two variables, which you can use for prediction. The
-summary() function will give you important statistics like the slope,
-intercept, and R-squared value (which shows how much of the variation in
-the response variable is explained by the explanatory variable).
-
-**simple eda** - Exploratory Data Analysis (EDA) is the process of
-analyzing data sets to summarize their main characteristics using
-visualizations and statistical methods. The goal is to better understand
-the structure of the data, detect patterns, spot anomalies, and test
-initial hypotheses.
-
-## When to Use:
-
-At the beginning of a data analysis project to explore your dataset and
-get a sense of its structure.
-
-- ex. Summary statistics: summary(data) to get a quick overview of the
-  distribution of your variables.
-- ex. Visualizations: Scatter plots, box plots, histograms, and
-  correlation matrices.
-
-**Normality test(shapiro.test)** - The Shapiro-Wilk test is used to test
-for normality. It assesses whether a sample comes from a normally
-distributed population. Many statistical tests (like ANOVA and t-tests)
-assume that the data is normally distributed, so testing for normality
-is a common step.
-
-When to Use: Before running parametric tests like ANOVA, t-tests, or
-linear regression, where the assumption of normal distribution is
-crucial.
-
-- ex.You want to test if the sepal_length is normally distributed.
-
-*Note:* If the p-value is greater than 0.05, the data is approximately
-normal. If the p-value is less than 0.05, the data significantly
-deviates from normality.
 
 # Exploratory Data Analysis
 
@@ -856,6 +821,83 @@ ggplot(iris.raw.data) +
     ## `geom_smooth()` using formula = 'y ~ x'
 
 ![](Project_1_Group_1---Presentation_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+## Summary
+
+### Purpose of each type of test:
+
+**One-way anova** - One-way ANOVA is used to determine if there are
+statistically significant differences between the means of three or more
+independent groups. It helps you understand if at least one group
+differs from the others, but it doesn’t tell you which specific groups
+differ.
+
+- Ex: You want to compare the mean sepal_length between different
+  Species to check if any species has significantly different sepal
+  lengths.
+
+*Note that If the ANOVA result is significant, post-hoc tests (e.g.,
+Tukey’s HSD) can determine which groups are different from each other.*
+
+**t-test** - The t-test is used to compare the means of two groups.
+There are two common types:
+
+- **Independent t-test** - Compares means between two independent groups
+  (e.g., sepal_length for “setosa” vs. “versicolor”).
+
+- **Paired t-test** - Compares means of the same group at different
+  times or conditions. You have two independent groups (e.g., comparing
+  two species) and a continuous variable (e.g., sepal_length).
+
+  - Ex: Comparing the mean sepal_length between two species.
+
+**simple linear regression** - Simple linear regression models the
+relationship between two continuous variables. It is used to predict the
+value of a response variable (dependent) based on the value of an
+explanatory variable (independent).
+
+You want to predict one continuous variable (e.g., sepal_length) from
+another continuous variable (e.g., petal_length).
+
+- Ex: You want to predict sepal_length from petal_length.
+
+*Note:* This will provide an equation for the linear relationship
+between the two variables, which you can use for prediction. The
+summary() function will give you important statistics like the slope,
+intercept, and R-squared value (which shows how much of the variation in
+the response variable is explained by the explanatory variable).
+
+**simple eda** - Exploratory Data Analysis (EDA) is the process of
+analyzing data sets to summarize their main characteristics using
+visualizations and statistical methods. The goal is to better understand
+the structure of the data, detect patterns, spot anomalies, and test
+initial hypotheses.
+
+## When to Use:
+
+At the beginning of a data analysis project to explore your dataset and
+get a sense of its structure.
+
+- Ex: Summary statistics: summary(data) to get a quick overview of the
+  distribution of your variables.
+- Ex: Visualizations: Scatter plots, box plots, histograms, and
+  correlation matrices.
+
+**Normality test(shapiro.test)** - The Shapiro-Wilk test is used to test
+for normality. It assesses whether a sample comes from a normally
+distributed population. Many statistical tests (like ANOVA and t-tests)
+assume that the data is normally distributed, so testing for normality
+is a common step.
+
+When to Use: Before running parametric tests like ANOVA, t-tests, or
+linear regression, where the assumption of normal distribution is
+crucial.
+
+- Ex: You want to test if the sepal_length is normally distributed.
+
+*Note:* If the p-value is greater than 0.05, the data is approximately
+normal. If the p-value is less than 0.05, the data significantly
+deviates from normality.
 
 ------------------------------------------------------------------------
 
