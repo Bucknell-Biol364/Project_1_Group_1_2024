@@ -12,7 +12,7 @@ Our target audience for this project are fellow BIOL 364 students. Students in t
 
 ## Instructions
 
-
+This tutorial will use an Iris data set to teach you how to load, explore, and analyze your data. This guided tutorial will walk you through the process, providing you with code examples to modify and run yourself. It provides explanations of code and tests to be run. Be sure to fill in any empty code chunks and places for your analysis and propmpts.
 
 ## Objectives
 1. Understand how to classify data (understanding different variable types and its effect on how to use them in analysis).

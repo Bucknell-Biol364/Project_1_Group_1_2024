@@ -1,6 +1,6 @@
 ---
 title: "Group 1 Project 1 Tutorial"
-output: html_document
+output: github_document
 date: "2024-09-29"
 names: "Jayden Benzan, Rebecca Beneroff, Kayla Lichtner"
 ---
