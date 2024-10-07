@@ -60,7 +60,7 @@ Alternatively, you can use this script to download the data set from online:
 
 ```{r}
 library (readr)
-iris.raw.data <- read.csv(url("https://raw.githubusercontent.com/Bucknell-Biol364/Project_1_Group_1_2024/refs/heads/main/Working%20Folder/iris_extended.csv"))
+iris.raw.data <- read.csv(url("https://raw.githubusercontent.com/Bucknell-Biol364/Project_1_Group_1_2024/refs/heads/main/Final%20Folder/iris_extended.csv"))
 ```
 
 *Citation for the dataset: https://www.kaggle.com/datasets/samybaladram/iris-dataset-extended?select=iris_extended.csv*
@@ -347,6 +347,7 @@ ggplot(setosa_data) + # This calls ggplot and tells it we're using the setosa da
    geom_smooth(method='lm',se=FALSE) # This adds our trend line
 
 ```
+
 This graph confirms what our p-values told us before, there does not appear to be any linear relationship between petal length and width in *I. setosa*.
 
 
@@ -360,6 +361,7 @@ ggplot(iris.raw.data) + # Same as before but this time we're calling the entire 
   theme_cowplot() # And once more, good ol' cowplot
 
 ```
+
 Similar to what we saw in the GGally plot, we can see that, as the p-value indicated, there does seem to be a linear relationship between petal width and length between these species. If we were to analyze this further, we could try to see if we could find something that might explain the difference such as looking at the soil and elevation data. There are also many different graphs to make and ways to make them look better such as changing the title and axis names, orienting your axis value positions, and changing the colors of the data. For now, it's...
 
 
@@ -433,6 +435,7 @@ Citation:
 Mishra, P., Pandey, C. M., Singh, U., Gupta, A., Sahu, C., & Keshri, A. (2019). Descriptive statistics and normality tests for statistical data. Annals of cardiac anaesthesia, 22(1), 67–72. https://doi.org/10.4103/aca.ACA_157_18
 
 Parts:
+
 * Tutorial Introduction, objectives, and introduction were done by Kayla and Rebecca
 * Instructions were done by Kayla with a couple packages added by Rebecca
 * Importing the dataset was done by Kayla (first import code, head, tail, nrow, glimpse, NAs) and Rebecca (online download code, NAs)

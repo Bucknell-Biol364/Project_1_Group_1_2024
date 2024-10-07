@@ -60,7 +60,7 @@ Alternatively, you can use this script to download the data set from online:
 
 ```{r}
 library (readr)
-iris.raw.data <- read.csv(url("https://raw.githubusercontent.com/Bucknell-Biol364/Project_1_Group_1_2024/refs/heads/main/Working%20Folder/iris_extended.csv"))
+iris.raw.data <- read.csv(url("https://raw.githubusercontent.com/Bucknell-Biol364/Project_1_Group_1_2024/refs/heads/main/Final%20Folder/iris_extended.csv"))
 ```
 
 *Citation for the dataset: https://www.kaggle.com/datasets/samybaladram/iris-dataset-extended?select=iris_extended.csv*
@@ -191,6 +191,7 @@ simple.eda(setosa_data$log10petal_length)
 simple.eda(versicolor_data$log10petal_length)
 simple.eda(virginica_data$log10petal_length)
 ```
+
 By separating the data by species, we find that the log transformation of petal length is now normally distributed. 
 
 
@@ -211,6 +212,7 @@ ggpairs(iris.raw.data,
   upper = list(continuous = "points")) +
   theme_cowplot()
 ```
+
 We're missing some of our variables such as elevation and soil type but this allows us a quick glance into some of the relationships that might exist within the data set. 
 
 
@@ -278,6 +280,7 @@ SepalSoilaov <- aov(setosa_data$log10petal_length~setosa_data$soil_type)
 summary(SepalSoilaov)
 
 ```
+
 Our p-value is 0.283 and so we again fail to reject the null hypothesis, it does not seem like soil type has a significant effect on petal length.
 
 ## Linear Modeling
@@ -297,6 +300,7 @@ lmSentosaPetalLW <- lm(log10petal_length ~ log10petal_width, data = setosa_data)
 
 summary(lmSentosaPetalLW)
 ```
+
 We have returned a p-value of 0.445 so it does not seem like there is a lot of correlation within *I. sentosa*. Our pair plot did include all of the species, so what does our model look like if we broaden it a little?
 
 ```{r}
@@ -304,6 +308,7 @@ lmIrisPetalLW <- lm(log10petal_length ~ log10petal_width, data = iris.raw.data)
 
 summary(lmIrisPetalLW)
 ```
+
 This returns a p-value of 2e^-16^ which is below p=0.05 so we can reject the null hypothesis and say that within these three Iris species, there does appear to be correlation. 
 
 
