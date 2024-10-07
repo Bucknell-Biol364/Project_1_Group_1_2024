@@ -51,17 +51,11 @@ if (!require("UsingR")) install.packages("UsingR");
 
     ## Loading required package: UsingR
 
-    ## Warning: package 'UsingR' was built under R version 4.3.3
-
     ## Loading required package: MASS
 
     ## Loading required package: HistData
 
-    ## Warning: package 'HistData' was built under R version 4.3.3
-
     ## Loading required package: Hmisc
-
-    ## Warning: package 'Hmisc' was built under R version 4.3.3
 
     ## 
     ## Attaching package: 'Hmisc'
@@ -77,11 +71,7 @@ if (!require("GGally")) install.packages("GGally");
 
     ## Loading required package: GGally
 
-    ## Warning: package 'GGally' was built under R version 4.3.3
-
     ## Loading required package: ggplot2
-
-    ## Warning: package 'ggplot2' was built under R version 4.3.3
 
     ## Registered S3 method overwritten by 'GGally':
     ##   method from   
@@ -93,16 +83,12 @@ if (!require("cowplot")) install.packages("cowplot");
 
     ## Loading required package: cowplot
 
-    ## Warning: package 'cowplot' was built under R version 4.3.3
-
 ``` r
   library(cowplot) # For graphing aesthetics
 if (!require("conflicted")) install.packages("conflicted"); 
 ```
 
     ## Loading required package: conflicted
-
-    ## Warning: package 'conflicted' was built under R version 4.3.3
 
 ``` r
   library (conflicted) # For conflicts
@@ -111,8 +97,6 @@ if (!require("readxl")) install.packages("readxl");
 
     ## Loading required package: readxl
 
-    ## Warning: package 'readxl' was built under R version 4.3.3
-
 ``` r
   library(readxl) #To read in data
 if (!require("gplots")) install.packages("gplots"); 
@@ -120,28 +104,12 @@ if (!require("gplots")) install.packages("gplots");
 
     ## Loading required package: gplots
 
-    ## Warning: package 'gplots' was built under R version 4.3.3
-
 ``` r
   library(gplots) #For graphs/plots
 if (!require("tidyverse")) install.packages("tidyverse"); 
 ```
 
     ## Loading required package: tidyverse
-
-    ## Warning: package 'tidyverse' was built under R version 4.3.3
-
-    ## Warning: package 'tidyr' was built under R version 4.3.3
-
-    ## Warning: package 'readr' was built under R version 4.3.3
-
-    ## Warning: package 'purrr' was built under R version 4.3.3
-
-    ## Warning: package 'stringr' was built under R version 4.3.3
-
-    ## Warning: package 'forcats' was built under R version 4.3.3
-
-    ## Warning: package 'lubridate' was built under R version 4.3.3
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -610,9 +578,8 @@ as soil and petal total area. Maybe you want to extend that to elevation
 too. Once you have a question in mind you can decide what tests might
 best serve your investigation best.
 
-- Look at your data again and formulate a question or hypothesis you
-  want to test. This is a large set so I’m going to use a pairplot to
-  see if there are any relationships that catch my interest:
+This is a large set so I’m going to use a pairplot to see if there are
+any relationships that catch my interest:
 
 ``` r
 library("GGally")
@@ -626,12 +593,20 @@ ggpairs(iris.raw.data, # calls ggpairs and tells it to use our iris dataset
 
 ![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
-The above code first loads GGally which is an eXtension of ggplot2, a
+The above code first loads GGally which is an extension of ggplot2, a
 preferred package for creating graphs. The ggpairs plot provides as a
 scatterplot matric that gives us a great initial summary visualization.
 We’re missing some of our variables such as elevation and soil type for
 the sake of visual clarity but this allows us a quick glance into some
 of the relationships that might exist within the data set.
+
+The example hypothesis will be ’soil type has a significant affect on
+the length of *I. setosa* petals.
+
+**Your Turn:**
+
+- Look at the summarized data as well as the pairplot and formulate a
+  question or hypothesis you want to test.
 
 ## The T.Test
 

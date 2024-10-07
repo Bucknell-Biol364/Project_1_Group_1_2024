@@ -203,7 +203,7 @@ By separating the data by species, we find that the log transformation of petal 
 
 At this point in your analysis you will be investigating the interactions between variables. You should start by formulating a question you might have about the dataset - For instance, you could choose to focus on one of the 3 species featured in the dataset. Noticing that *Iris setosa* inhabits three different soil types - loamy, sand, and clay - you might want to investigate if there is any relationship between soil type and petal length in *I. setosa*. You could then look for relationships between soil and petal width as well as soil and petal total area. Maybe you want to extend that to elevation too. Once you have a question in mind you can decide what tests might best serve your investigation best. 
 
-* Look at your data again and formulate a question or hypothesis you want to test. This is a large set so I'm going to use a pairplot to see if there are any relationships that catch my interest:
+This is a large set so I'm going to use a pairplot to see if there are any relationships that catch my interest:
 
 ```{r}
 library("GGally")
@@ -215,7 +215,13 @@ ggpairs(iris.raw.data, # calls ggpairs and tells it to use our iris dataset
   theme_cowplot() #This applies the cowplot theme which makes the plot look a little neater by doing things such as removing the usual grey grid background.
 ```
 
-The above code first loads GGally which is an eXtension of ggplot2, a preferred package for creating graphs. The ggpairs plot provides as a scatterplot matric that gives us a great initial summary visualization. We're missing some of our variables such as elevation and soil type for the sake of visual clarity but this allows us a quick glance into some of the relationships that might exist within the data set. 
+The above code first loads GGally which is an extension of ggplot2, a preferred package for creating graphs. The ggpairs plot provides as a scatterplot matric that gives us a great initial summary visualization. We're missing some of our variables such as elevation and soil type for the sake of visual clarity but this allows us a quick glance into some of the relationships that might exist within the data set. 
+
+The example hypothesis will be 'soil type has a significant affect on the length of *I. setosa* petals.
+
+**Your Turn:**
+
+* Look at the summarized data as well as the pairplot and formulate a question or hypothesis you want to test. 
 
 
 ## The T.Test
