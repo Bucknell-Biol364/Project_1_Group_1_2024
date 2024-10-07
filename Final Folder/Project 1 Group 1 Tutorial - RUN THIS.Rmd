@@ -24,10 +24,10 @@ There are three objectives for this tutorial:
 
 ## Data introduction 
 
-The data set used in this tutorial contains data for members of three different species of Iris. It features morphometric data highlighting the petals and sepals of *Iris* flowers. Petals being the colored modified leaves that surround the reproductive parts of the flower and sepals being the typically green leaf like structures that protect the flower bud and provide support for the petals when the flower is in bloom. The data set also records the elevation and soil type where the flowers are found. There are 1200 observations in the data set with 400 observations per species. 
+The data set used in this tutorial contains data for members of three different species of Iris. This is an expanded version of a very popular introductory dataset. It features morphometric data highlighting the petals and sepals of *Iris* flowers. Petals being the colored modified leaves that surround the reproductive parts of the flower and sepals being the typically green leaf like structures that protect the flower bud and provide support for the petals when the flower is in bloom. The data set also records the elevation and soil type where the flowers are found. There are 1200 observations in the data set with 400 observations per species. 
 
 
-# Instructions
+# Getting Set up
 
 ## Loading the necessary packages 
 
@@ -81,12 +81,8 @@ It is important to understand the structure of the raw data as it will impact ho
 ```{r}
 glimpse(iris.raw.data)
 ```
- 
-## Check for NAs in the data 
 
-Now is a good time to check for NAs in the dataset, but there are no NAs in this data. If there were though, we could use the function `drop_na()` to omit those rows.
-
-# Looking into different variables- Jayden 
+# Looking into different variables 
 
 If you are ever looking at a data set and you find it hard to understand what type of variables you are looking at here is a few simple ways to get a bettering understanding. In th code chuck above there is a code used called "glimpse". There are typically two variables that we look at when conducting data exploration which are response and explanatory.
 
@@ -124,6 +120,13 @@ Once you are able to read the data into R your next step would be to use the fol
 # Exploratory Data Analysis
 
 It is important to run an initial exploratory data analysis to understand the distributions of your dataset as the distribution of data directly influences the type of statistical analyses to perform. 
+
+## Check for NAs in the data 
+
+We should start be checking for for NAs in the dataset. NAs within the set mean that there are missing data values. Missing data values can make the row containing the NA less useful to us as the missing information could skew our tests. It is important to consider how dropping NAs might affect your analysis, for instance is the NA in a section of the data that you are not looking to analyze? Consider the possible reasons you might want or not want to drop NAs before doing so. 
+In this dataset there are no NAs. If there were though and we did want to remove them, we could use the function `drop_na()` to omit those rows.
+
+## Checking Distributions
 
 To explore the distributions of some of the variables we are interested in we can use the simple.eda() function to look at the distributions of the numerical data.
 
@@ -194,7 +197,7 @@ simple.eda(virginica_data$log10petal_length)
 By separating the data by species, we find that the log transformation of petal length is now normally distributed. 
 
 
-# Running Data Analysis Rebecca
+# Running Data Analysis 
 
 ## Form a Question:
 
@@ -205,13 +208,14 @@ At this point in your analysis you will be investigating the interactions betwee
 ```{r}
 library("GGally")
 
-ggpairs(iris.raw.data,
-  columns = 4:7,
-  aes(color = species, alpha = 0.5),
-  upper = list(continuous = "points")) +
-  theme_cowplot()
+ggpairs(iris.raw.data, # calls ggpairs and tells it to use our iris dataset
+  columns = 4:7, # Tells R that we are only looking to visualize colums 4-7 
+  aes(color = species, alpha = 0.5), # Tells R that we want to color the graph by the species type so we can visualize the species differences
+  upper = list(continuous = "points", position = "jitter")) + # This adds the scatter plots 
+  theme_cowplot() #This applies the cowplot theme which makes the plot look a little neater by doing things such as removing the usual grey grid background.
 ```
-We're missing some of our variables such as elevation and soil type but this allows us a quick glance into some of the relationships that might exist within the data set. 
+
+The above code first loads GGally which is an eXtension of ggplot2, a preferred package for creating graphs. The ggpairs plot provides as a scatterplot matric that gives us a great initial summary visualization. We're missing some of our variables such as elevation and soil type for the sake of visual clarity but this allows us a quick glance into some of the relationships that might exist within the data set. 
 
 
 ## The T.Test
@@ -237,7 +241,9 @@ setosa_soil_data <- setosa_data |>
 summary(setosa_soil_data$soil_type)
 ```
 
-Perform any filtering or arranging you might need to do here:
+**Your Turn:**
+
+* Perform any filtering or arranging you might need to do here:
 
 ```{r}
 
@@ -246,19 +252,22 @@ Perform any filtering or arranging you might need to do here:
 
 * State your null hypothesis:
 
-You will now run the t.test. Use the below sepal/soil test code as a guide.
+We will now perform the T Test:
 
 ```{r}
 t.test(log10petal_length ~ soil_type, data = setosa_soil_data)
 ```
 
-* Your Turn
+The example t.test returned a p-value of 0.2326. The p-value tells us the likelihood that you might observe the modeled outcome in your data set given that the null hypothesis is true. We will reject the null hypothesis if p < 0.05. Given our test returned a p-value of 0.7936, we can not confidently say amongst clay or sandy soil that soil type affects the length of petals in *I. setosa* so we fail to reject the null hypothesis.
+
+**Your Turn:**
+
+You will now run the t.test. Use the above sepal/soil test code as a guide to test your hypothesis.
 
 ```{r}
 
 ```
 
-The example t.test returned a p-value of 0.2326. The p-value tells us the likelihood that you might observe the modeled outcome in your data set given that the null hypothesis is true. We will reject the null hypothesis if p < 0.05. Given our test returned a p-value of 0.7936, we can not confidently say amongst clay or sandy soil that soil type affects the length of petals in *I. setosa* so we fail to reject the null hypothesis.
 
 * Interpret your t.test below:
 
@@ -280,6 +289,15 @@ summary(SepalSoilaov)
 ```
 Our p-value is 0.283 and so we again fail to reject the null hypothesis, it does not seem like soil type has a significant effect on petal length.
 
+**Your Turn:**
+
+Perform an Anova test below and interpret your results:
+
+```{r}
+
+```
+
+
 ## Linear Modeling
 
 Linear modeling looks for direct correlations between variables. 
@@ -297,7 +315,7 @@ lmSentosaPetalLW <- lm(log10petal_length ~ log10petal_width, data = setosa_data)
 
 summary(lmSentosaPetalLW)
 ```
-We have returned a p-value of 0.445 so it does not seem like there is a lot of correlation within *I. sentosa*. Our pair plot did include all of the species, so what does our model look like if we broaden it a little?
+We have returned a p-value of 0.445 so it does not seem like there is a lot of correlation within *I. sentosa*. Our pair plot did include all of the species, so what does our model look like if we broaden it a little and look at all three of the Iris species?
 
 ```{r}
 lmIrisPetalLW <- lm(log10petal_length ~ log10petal_width, data = iris.raw.data)
@@ -306,34 +324,55 @@ summary(lmIrisPetalLW)
 ```
 This returns a p-value of 2e^-16^ which is below p=0.05 so we can reject the null hypothesis and say that within these three Iris species, there does appear to be correlation. 
 
+**Your Turn:**
 
-Now what does this look like? We can make a quick graph to take a look at our data
-
-```{r}
-ggplot(setosa_data) +
-  aes(x = log10petal_length, y=log10petal_width) +
-  geom_point(position = "jitter",size=1) +
-  theme_cowplot()+
-   geom_smooth(method='lm',se=FALSE)
-
-```
-
-```{r}
-ggplot(iris.raw.data) +
-       aes(x=log10petal_length, y=log10petal_width, color = species) + 
-  geom_point() +
-  geom_smooth(method = lm, color="black") +
-  theme_cowplot()
-
-```
-
-* Your Turn: What analyses might you want to run?
+Determine if your data fits the requirements for linear modeling and perform your own tests below:
 
 ```{r}
 
 ```
 
-## Summary
+
+## Visualization
+
+Now what does this look like? Visualizations are an important part of understanding our data. Visualizations allow us to see a better picture of the story the data tells. It allows us to find identify and recognize trends, outliers, and patterns within the dataset. It is also an important tool for presenting your data to other people. This tutorial will give a brief overview of data visualization. We are going to use the ggplot package, a package dedicated exclusively to data visualization so you can quickly make visually appealing and effective graphs. 
+
+Lets start by making a quick graph to take a look at the relationship between our log transformed petal length and petal width of *I. setosa*.
+
+```{r}
+ggplot(setosa_data) + # This calls ggplot and tells it we're using the setosa dataset.
+  aes(x = log10petal_length, y=log10petal_width) + # This sets our x and y axis with the variables we are looking to explore
+  geom_point(position = "jitter",size=1) + # This sets up our scatter plot and adds jitter which, basically, spreads our points out and makes them easier to see
+  theme_cowplot()+ # Good ol' cowplot from before
+   geom_smooth(method='lm',se=FALSE) # This adds our trend line
+
+```
+This graph confirms what our p-values told us before, there does not appear to be any linear relationship between petal length and width in *I. setosa*.
+
+
+But we did see a significant p-value when we looked at petal length and width in the whole *Iris* set so lets take a look at that relationship.  
+
+```{r}
+ggplot(iris.raw.data) + # Same as before but this time we're calling the entire iris dataset
+       aes(x=log10petal_length, y=log10petal_width, color = species) +  # Same as before but now like we did with GGally, we're telling it we want to color the points by the Iris species
+  geom_point(position = "jitter",size=1) + # Same as the last graph
+  geom_smooth(method = lm, color="black") + # This is the same but this time we are telling it we want to make the trendline black
+  theme_cowplot() # And once more, good ol' cowplot
+
+```
+Similar to what we saw in the GGally plot, we can see that, as the p-value indicated, there does seem to be a linear relationship between petal width and length between these species. If we were to analyze this further, we could try to see if we could find something that might explain the difference such as looking at the soil and elevation data. There are also many different graphs to make and ways to make them look better such as changing the title and axis names, orienting your axis value positions, and changing the colors of the data. For now, it's...
+
+
+...**Your Turn!:** 
+
+* What does your data look like? Make your own graph below
+
+```{r}
+
+```
+
+
+# Summary
 
 ### Purpose of each type of test:
 
@@ -392,3 +431,13 @@ For the discussion of the purpose for normal distibutions and transforming data 
 
 Citation:
 Mishra, P., Pandey, C. M., Singh, U., Gupta, A., Sahu, C., & Keshri, A. (2019). Descriptive statistics and normality tests for statistical data. Annals of cardiac anaesthesia, 22(1), 67–72. https://doi.org/10.4103/aca.ACA_157_18
+
+Parts:
+* Tutorial Introduction, objectives, and introduction were done by Kayla and Rebecca
+* Instructions were done by Kayla with a couple packages added by Rebecca
+* Importing the dataset was done by Kayla (first import code, head, tail, nrow, glimpse, NAs) and Rebecca (online download code, NAs)
+* Jayden did the Looking into different variables section, Rebecca assisted with factoring code
+* Exploratory Data Analysis section done by Kayla, Rebecca assised with filtering code
+* Running Data Analysis section done by Rebecca
+* Summary done by Jayden
+* Formatting done by Rebecca
