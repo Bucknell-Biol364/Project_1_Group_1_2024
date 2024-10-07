@@ -317,9 +317,9 @@ It is a parametric test and assumes:
 Lets investigate a new question, since there was no significance in petal/soil data, lets investigate the relationship between petal length and width since it seemed like there might be a linear correlation between the two in the pairplot. We can investigate this with a linear model.
 
 ```{r}
-lmSentosaPetalLW <- lm(log10petal_length ~ log10petal_width, data = setosa_data)
+lmSetosaPetalLW <- lm(log10petal_length ~ log10petal_width, data = setosa_data)
 
-summary(lmSentosaPetalLW)
+summary(lmSetosaPetalLW)
 ```
 We have returned a p-value of 0.445 so it does not seem like there is a lot of correlation within *I. sentosa*. Our pair plot did include all of the species, so what does our model look like if we broaden it a little and look at all three of the Iris species?
 

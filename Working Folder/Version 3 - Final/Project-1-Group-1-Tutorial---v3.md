@@ -735,9 +735,9 @@ between the two in the pairplot. We can investigate this with a linear
 model.
 
 ``` r
-lmSentosaPetalLW <- lm(log10petal_length ~ log10petal_width, data = setosa_data)
+lmSetosaPetalLW <- lm(log10petal_length ~ log10petal_width, data = setosa_data)
 
-summary(lmSentosaPetalLW)
+summary(lmSetosaPetalLW)
 ```
 
     ## 
