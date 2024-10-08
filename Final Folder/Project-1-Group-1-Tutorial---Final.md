@@ -488,37 +488,37 @@ line. These characteristics represent normality.
 simple.eda(iris.raw.data$sepal_area)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$sepal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$sepal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-3.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-8-3.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$petal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-4.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-8-4.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-5.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-8-5.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$petal_area)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-6.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-8-6.png)<!-- -->
 
 The results of this preliminary analysis shows that sepal area and sepal
 width are approximately normally distributed as their histograms follow
@@ -611,28 +611,28 @@ iris.raw.data$log10sepal_length <- log10(iris.raw.data$sepal_length)
 simple.eda(iris.raw.data$log10sepal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 iris.raw.data$log10sepal_width <- log10(iris.raw.data$sepal_width)
 simple.eda(iris.raw.data$log10sepal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
 
 ``` r
 iris.raw.data$log10petal_length <- log10(iris.raw.data$petal_length)
 simple.eda(iris.raw.data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->
 
 ``` r
 iris.raw.data$log10petal_width <- log10(iris.raw.data$petal_width)
 simple.eda(iris.raw.data$log10petal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-4.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-10-4.png)<!-- -->
 
 After log transforming the sepal length data, we find that it now
 follows a normal distribution. It is important for a dataset to be
@@ -671,19 +671,19 @@ Now, look at petal length for all three iris species separately:
 simple.eda(setosa_data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 simple.eda(versicolor_data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
 
 ``` r
 simple.eda(virginica_data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-3.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-12-3.png)<!-- -->
 By separating the data by species, we find that the log transformation
 of petal length is now normally distributed. Therefore, it is always
 important to check the log transformation of a given variable and
@@ -719,7 +719,7 @@ ggpairs(iris.raw.data, # calls ggpairs and tells it to use our iris dataset
   theme_cowplot() #This applies the cowplot theme which makes the plot look a little neater by doing things such as removing the usual grey grid background.
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 The above code first loads GGally which is an extension of ggplot2, a
 preferred package for creating graphs. The ggpairs plot outputs a
@@ -951,7 +951,7 @@ ggplot(setosa_data) + # This calls ggplot and tells it we're using the setosa da
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 This graph confirms what our p-values told us before, there does not
 appear to be any linear relationship between petal length and width in
@@ -970,7 +970,7 @@ ggplot(iris.raw.data) + # Same as before but this time we're calling the entire 
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---Final_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 Similar to what we saw in the GGally plot, we can see that, as the
 p-value indicated, there does seem to be a linear relationship between
