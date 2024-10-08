@@ -55,17 +55,18 @@ conflict_prefer_all("dplyr", quiet = TRUE)
 
 ## Importing the dataset
 
-Go to our Git repository called Project_1_Group_1_2024, and download the "iris.extended.csv" data file from the "Dataset options" folder. We are going to make a final folder with the finished tutorial and the data csv file, but for now, please do this to import the data.
-
-```{r}
-iris.raw.data <- read.csv("iris_extended.csv")
-```
-
-Alternatively, you can use this script to download the data set from online:
+There are two ways you could go about downloading the data set. First, try this script which should download it directly from our Git folder:
 
 ```{r}
 library (readr)
 iris.raw.data <- read.csv(url("https://raw.githubusercontent.com/Bucknell-Biol364/Project_1_Group_1_2024/refs/heads/main/Final%20Folder/iris_extended.csv"))
+```
+
+
+If that does not work, go to our Git repository called Project_1_Group_1_2024, and download the "iris.extended.csv" data file from the "Final" folder. 
+
+```{r}
+iris.raw.data <- read.csv("iris_extended.csv")
 ```
 
 *Citation for the dataset: https://www.kaggle.com/datasets/samybaladram/iris-dataset-extended?select=iris_extended.csv*
@@ -81,11 +82,7 @@ nrow(iris.raw.data)
 
 This shows us that there are 1200 rows of data which aligns with the expectation of 1200 lines of data according to Github.
 
-
-## Check for NAs in the data 
-
-We should start be checking for for NAs in the dataset. NAs within the set mean that there are missing data values. Missing data values can make the row containing the NA less useful to us as the missing information could skew our tests. It is important to consider how dropping NAs might affect your analysis, for instance is the NA in a section of the data that you are not looking to analyze? Consider the possible reasons you might want or not want to drop NAs before doing so. 
-In this dataset there are no NAs. If there were though and we did want to remove them, we could use the function `drop_na()` to omit those rows.
+## Summarizing the data
 
 It is important to understand the structure of the raw data as it will impact how you prepare for analysis. To do so, use the glimpse() function which summarizes the general structure of the dataset:
 
@@ -93,22 +90,68 @@ It is important to understand the structure of the raw data as it will impact ho
 glimpse(iris.raw.data)
 ```
 
+Now when it comes to learning the more common variable types after you run the glimpse function here is what you will typically see in the second column.
+
+**< int >:** Represents integers, whole numbers like 1, 42, or -5.
+
+* Example: 5, 100, -3
+
+**< dbl >:** Represents double (numeric) values, which are real numbers (can have decimals).
+
+* Example: 3.14, -1.23, 0.001
+
+**< chr >:** Represents character strings or text data.
+
+* Example: "apple", "hello world", "2024"
+
+**< lgl >:** Represents logical values, which can be TRUE, FALSE, or NA (missing value).
+
+* Example: TRUE, FALSE, NA
+
+**< fctr >:** Represents factor variables, which are categorical data with a fixed set of levels.
+
+* Example: Low, Medium, High (ordered or unordered categories)
+
+**< date >:** Represents date objects, specifically dates in the format YYYY-MM-DD.
+
+* Example: 2024-10-07
+
+**< time >:** Represents time or date-time objects, usually in the format YYYY-MM-DD HH:MM:SS.
+
+* Example: 2024-10-07 12:34:56
+
+**< list >:** Represents a list, a flexible data type in R that can hold multiple types of data structures (like vectors, data frames, or even other lists).
+
+* Example: A list can contain elements like vectors, matrices, or other lists.
+
+**< POSIXct >:** Represents date-time objects that store both date and time information. These are particularly useful for time series data.
+
+* Example: 2024-10-07 14:30:00
+
+**< num >:** Represents numeric values, which can be both integers and real numbers (similar to <dbl> but more general).
+
+* Example: 3.0, -1, 42.5
+
+## Check for NAs in the data 
+
+We should now start to clean our data set. One of the first things we can do is check for for NAs in the data set. NAs within the data mean that there are missing data values. Missing data values can make the row containing the NA less useful to us as the missing information could skew our tests. It is important to consider how dropping NAs might affect your analysis, for instance is the NA in a section of the data that you are not looking to analyze? Consider the possible reasons you might want or not want to drop NAs before doing so. 
+In this dataset there are no NAs. If there were though and we did want to remove them, we could use the function `drop_na()` to omit those rows.
+
 # Looking into different variables 
 
 If you are ever looking at a data set and you find it hard to understand what type of variables you are looking at here is a few simple ways to get a bettering understanding. In th code chuck above there is a code used called "glimpse". There are typically two variables that we look at when conducting data exploration which are response and explanatory.
 
-**Explanatory** - Also known as an independent variable or predictor, this variable is used to explain or predict the outcome variable. It's the expected cause of the response variable.
+**Explanatory:**  Also known as an independent variable or predictor, this variable is used to explain or predict the outcome variable. It's the expected cause of the response variable.
 
-* Ex: Elevation, 
+* Ex: Elevation 
 
-**Response** - Also known as a dependent variable, this variable is the outcome variable that's explained or predicted by the explanatory variable. It's the expected effect of the explanatory variable.
+**Response:**  Also known as a dependent variable, this variable is the outcome variable that's explained or predicted by the explanatory variable. It's the expected effect of the explanatory variable.
 
-* Ex: 
-sepal_length, sepal_width, petal_length, petal_width, sepal_area, , sepal_aspect_ratio, petal_aspect_ratio, sepal_to_petal_length_ratio, sepal_to_petal_length_diff, sepal_to_petal_width_diff, petal_curvature_mm, petal_texture_trichomes_per_mm2, leaf_area_cm2, sepal_area_sprt, petal_area_sprt, area_ratios
+* Ex: sepal_length, sepal_width, petal_length, petal_width, sepal_area, , sepal_aspect_ratio, petal_aspect_ratio, sepal_to_petal_length_ratio, sepal_to_petal_length_diff, sepal_to_petal_width_diff, petal_curvature_mm, petal_texture_trichomes_per_mm2, leaf_area_cm2, sepal_area_sprt, petal_area_sprt, area_ratios
 
-**Factoring:** - the process of converting a variable into a factor, which is a data type used to represent categorical data. Factors store both the unique categories (called levels) and the values that belong to those categories. Factoring is commonly used when you want to classify data into distinct groups, such as types, species, or categories, for statistical modeling or analysis.
+**Factoring:**  the process of converting a variable into a factor, which is a data type used to represent categorical data. Factors store both the unique categories (called levels) and the values that belong to those categories. Factoring is commonly used when you want to classify data into distinct groups, such as types, species, or categories, for statistical modeling or analysis.
 
-Below, the mutate function allows one to manipulate previously existing variables in a dataframe (i.e. change a variable into a factor as demonstrated below). The mutate() function can be used to manipulate pre-existing variables or generate new columns of data. 
+We can change our categorial functions into factors by running the code chunk below. The mutate function allows one to manipulate previously existing variables in a dataframe (i.e. change a variable into a factor as demonstrated below). The mutate() function can be used to manipulate pre-existing variables or generate new columns of data. 
 
 ```{r}
 iris.raw.data <- iris.raw.data |> 
@@ -119,16 +162,22 @@ summary(iris.raw.data$soil_type)
 summary(iris.raw.data$species)
 ```
 
-* Ex: After running this code, both the soil_type and species columns will be stored as factors in the iris.raw.data dataset, making it easier to perform tasks like grouping, summarization, or statistical modeling that depend on categorical variables. 
+After running this code, both the soil_type and species columns will be stored as factors in the iris.raw.data dataset, making it easier to perform tasks like grouping, summarization, or statistical modeling that depend on categorical variables. 
 
+Lets check our dataset to make sure all of our variables are now classified as we would want them to be:
 
-* Where would these go?: 
-sepal_to_petal_width_ratio, Soil_type, petal_area, Species
+```{r}
+glimpse(iris.raw.data)
+```
 
+**Understanding Check!:**
 
-Once you are able to read the data into R your next step would be to use the following code:
-`data(iris.raw.data)` .
+What would these variables be classified as? Would you want to mutate them at all? If so, why?
 
+* sepal_to_petal_width_ratio: 
+* Soil_type: 
+* petal_area: 
+* Species:
 
 # Exploratory Data Analysis
 
@@ -382,7 +431,6 @@ ggplot(iris.raw.data) + # Same as before but this time we're calling the entire 
 
 Similar to what we saw in the GGally plot, we can see that, as the p-value indicated, there does seem to be a linear relationship between petal width and length between these species. If we were to analyze this further, we could try to see if we could find something that might explain the difference such as looking at the soil and elevation data. There are also many different graphs to make and ways to make them look better such as changing the title and axis names, orienting your axis value positions, and changing the colors of the data. For now, it's...
 
-
 ...**Your Turn!:** 
 
 * What does your data look like? Make your own graph below
@@ -408,6 +456,7 @@ Similar to what we saw in the GGally plot, we can see that, as the p-value indic
 
 * **Paired t-test** - Compares means of the same group at different times or conditions.
 You have two independent groups (e.g., comparing two species) and a continuous variable (e.g., sepal_length).
+
   * Ex: Comparing the mean sepal_length between two species.
 
 **simple linear regression** - Simple linear regression models the relationship between two continuous variables. It is used to predict the value of a response variable (dependent) based on the value of an explanatory variable (independent).
@@ -416,12 +465,11 @@ You want to predict one continuous variable (e.g., sepal_length) from another co
 
 * Ex: You want to predict sepal_length from petal_length.
 
-*Note:*
-This will provide an equation for the linear relationship between the two variables, which you can use for prediction. The summary() function will give you important statistics like the slope, intercept, and R-squared value (which shows how much of the variation in the response variable is explained by the explanatory variable).
+*Note: This will provide an equation for the linear relationship between the two variables, which you can use for prediction. The summary() function will give you important statistics like the slope, intercept, and R-squared value (which shows how much of the variation in the response variable is explained by the explanatory variable).*
 
 **simple eda** - Exploratory Data Analysis (EDA) is the process of analyzing data sets to summarize their main characteristics using visualizations and statistical methods. The goal is to better understand the structure of the data, detect patterns, spot anomalies, and test initial hypotheses.
 
-## When to Use: 
+## When to Use What Test: 
 
 At the beginning of a data analysis project to explore your dataset and get a sense of its structure.
 
@@ -436,8 +484,8 @@ Before running parametric tests like ANOVA, t-tests, or linear regression, where
 * Ex: You want to test if the sepal_length is normally distributed.
 
 *Note:*
-If the p-value is greater than 0.05, the data is approximately normal.
-If the p-value is less than 0.05, the data significantly deviates from normality.
+*If the p-value is greater than 0.05, the data is approximately normal.*
+*If the p-value is less than 0.05, the data significantly deviates from normality.*
 
 ----------------------------------------
 

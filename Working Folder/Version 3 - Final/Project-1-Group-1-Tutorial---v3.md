@@ -4,6 +4,16 @@ Group 1 Project 1 Tutorial
 
 Tutorial: An Introduction to Data Preparation, Exploration, and Analysis
 
+## Target Audience
+
+Our target audience for this project are fellow BIOL 364 students.
+Students in this class generally have had a brief introduction or
+previous exposure to R software. Therefore, the goal of this proposal is
+to walk students though a data modeling tutorial, including basic R
+housekeeping, but not go extremely in-depth in the explanation for all
+coding language. This tutorial assumes the individual has some previous
+R experience.
+
 ## Tutorial introduction
 
 Do you have a dataset but you’re not sure where to start with analysis?
@@ -124,31 +134,31 @@ conflict_prefer_all("dplyr", quiet = TRUE)
 
 ## Importing the dataset
 
-Go to our Git repository called Project_1_Group_1_2024, and download the
-“iris.extended.csv” data file from the “Dataset options” folder. We are
-going to make a final folder with the finished tutorial and the data csv
-file, but for now, please do this to import the data.
-
-``` r
-iris.raw.data <- read.csv("iris_extended.csv")
-```
-
-Alternatively, you can use this script to download the data set from
-online:
+There are two ways you could go about downloading the data set. First,
+try this script which should download it directly from our Git folder:
 
 ``` r
 library (readr)
 iris.raw.data <- read.csv(url("https://raw.githubusercontent.com/Bucknell-Biol364/Project_1_Group_1_2024/refs/heads/main/Final%20Folder/iris_extended.csv"))
 ```
 
+If that does not work, go to our Git repository called
+Project_1_Group_1_2024, and download the “iris.extended.csv” data file
+from the “Final” folder.
+
+``` r
+iris.raw.data <- read.csv("iris_extended.csv")
+```
+
 *Citation for the dataset:
 <https://www.kaggle.com/datasets/samybaladram/iris-dataset-extended?select=iris_extended.csv>*
 
 After loading in a dataset, you always want to make sure that everything
-loaded in properly. To do this, check the top and bottom of your data,
-and the number of observations you have imported. The data on GitHub
-reports 1200 lines of data, in our environment the data should read 1200
-observations as there is one line for column headings.
+loaded in properly. To do this, check the top and bottom of your data
+(head() and tail()), and the number of observations you have imported
+(nrow()). The data on GitHub reports 1200 lines of data, in our
+environment the data should read 1200 observations as there is one line
+for column headings.
 
 ``` r
 head(iris.raw.data)
@@ -253,8 +263,11 @@ nrow(iris.raw.data)
 This shows us that there are 1200 rows of data which aligns with the
 expectation of 1200 lines of data according to Github.
 
+## Summarizing the data
+
 It is important to understand the structure of the raw data as it will
-impact how you prepare for analysis. To do so:
+impact how you prepare for analysis. To do so, use the glimpse()
+function which summarizes the general structure of the dataset:
 
 ``` r
 glimpse(iris.raw.data)
@@ -284,6 +297,73 @@ glimpse(iris.raw.data)
     ## $ petal_area_sqrt                 <dbl> 0.6529931, 0.7523962, 0.7473955, 0.510…
     ## $ area_ratios                     <dbl> 41.26548, 39.20509, 25.56391, 61.36717…
 
+Now when it comes to learning the more common variable types after you
+run the glimpse function here is what you will typically see in the
+second column.
+
+**\< int \>:** Represents integers, whole numbers like 1, 42, or -5.
+
+- Example: 5, 100, -3
+
+**\< dbl \>:** Represents double (numeric) values, which are real
+numbers (can have decimals).
+
+- Example: 3.14, -1.23, 0.001
+
+**\< chr \>:** Represents character strings or text data.
+
+- Example: “apple”, “hello world”, “2024”
+
+**\< lgl \>:** Represents logical values, which can be TRUE, FALSE, or
+NA (missing value).
+
+- Example: TRUE, FALSE, NA
+
+**\< fctr \>:** Represents factor variables, which are categorical data
+with a fixed set of levels.
+
+- Example: Low, Medium, High (ordered or unordered categories)
+
+**\< date \>:** Represents date objects, specifically dates in the
+format YYYY-MM-DD.
+
+- Example: 2024-10-07
+
+**\< time \>:** Represents time or date-time objects, usually in the
+format YYYY-MM-DD HH:MM:SS.
+
+- Example: 2024-10-07 12:34:56
+
+**\< list \>:** Represents a list, a flexible data type in R that can
+hold multiple types of data structures (like vectors, data frames, or
+even other lists).
+
+- Example: A list can contain elements like vectors, matrices, or other
+  lists.
+
+**\< POSIXct \>:** Represents date-time objects that store both date and
+time information. These are particularly useful for time series data.
+
+- Example: 2024-10-07 14:30:00
+
+**\< num \>:** Represents numeric values, which can be both integers and
+real numbers (similar to <dbl> but more general).
+
+- Example: 3.0, -1, 42.5
+
+## Check for NAs in the data
+
+We should now start to clean our data set. One of the first things we
+can do is check for for NAs in the data set. NAs within the data mean
+that there are missing data values. Missing data values can make the row
+containing the NA less useful to us as the missing information could
+skew our tests. It is important to consider how dropping NAs might
+affect your analysis, for instance is the NA in a section of the data
+that you are not looking to analyze? Consider the possible reasons you
+might want or not want to drop NAs before doing so. In this dataset
+there are no NAs. If there were though and we did want to remove them,
+we could use the function `drop_na()` to omit those rows.
+
 # Looking into different variables
 
 If you are ever looking at a data set and you find it hard to understand
@@ -292,13 +372,13 @@ get a bettering understanding. In th code chuck above there is a code
 used called “glimpse”. There are typically two variables that we look at
 when conducting data exploration which are response and explanatory.
 
-**Explanatory** - Also known as an independent variable or predictor,
+**Explanatory:** Also known as an independent variable or predictor,
 this variable is used to explain or predict the outcome variable. It’s
 the expected cause of the response variable.
 
-- Ex: Elevation,
+- Ex: Elevation
 
-**Response** - Also known as a dependent variable, this variable is the
+**Response:** Also known as a dependent variable, this variable is the
 outcome variable that’s explained or predicted by the explanatory
 variable. It’s the expected effect of the explanatory variable.
 
@@ -308,12 +388,18 @@ variable. It’s the expected effect of the explanatory variable.
   petal_curvature_mm, petal_texture_trichomes_per_mm2, leaf_area_cm2,
   sepal_area_sprt, petal_area_sprt, area_ratios
 
-**Factoring:** - the process of converting a variable into a factor,
-which is a data type used to represent categorical data. Factors store
-both the unique categories (called levels) and the values that belong to
+**Factoring:** the process of converting a variable into a factor, which
+is a data type used to represent categorical data. Factors store both
+the unique categories (called levels) and the values that belong to
 those categories. Factoring is commonly used when you want to classify
 data into distinct groups, such as types, species, or categories, for
 statistical modeling or analysis.
+
+We can change our categorial functions into factors by running the code
+chunk below. The mutate function allows one to manipulate previously
+existing variables in a dataframe (i.e. change a variable into a factor
+as demonstrated below). The mutate() function can be used to manipulate
+pre-existing variables or generate new columns of data.
 
 ``` r
 iris.raw.data <- iris.raw.data |> 
@@ -333,16 +419,51 @@ summary(iris.raw.data$species)
     ##     setosa versicolor  virginica 
     ##        400        400        400
 
-- Ex: After running this code, both the soil_type and species columns
-  will be stored as factors in the iris.raw.data dataset, making it
-  easier to perform tasks like grouping, summarization, or statistical
-  modeling that depend on categorical variables.
+After running this code, both the soil_type and species columns will be
+stored as factors in the iris.raw.data dataset, making it easier to
+perform tasks like grouping, summarization, or statistical modeling that
+depend on categorical variables.
 
-- Where would these go?: sepal_to_petal_width_ratio, Soil_type,
-  petal_area, Species
+Lets check our dataset to make sure all of our variables are now
+classified as we would want them to be:
 
-Once you are able to read the data into R your next step would be to use
-the following code: `data(iris.raw.data)` .
+``` r
+glimpse(iris.raw.data)
+```
+
+    ## Rows: 1,200
+    ## Columns: 21
+    ## $ species                         <fct> setosa, setosa, setosa, setosa, setosa…
+    ## $ elevation                       <dbl> 161.8, 291.4, 144.3, 114.6, 110.9, 164…
+    ## $ soil_type                       <fct> sandy, clay, sandy, clay, loamy, clay,…
+    ## $ sepal_length                    <dbl> 5.16, 5.48, 5.10, 4.64, 4.85, 4.91, 4.…
+    ## $ sepal_width                     <dbl> 3.41, 4.05, 2.80, 3.44, 2.87, 3.19, 3.…
+    ## $ petal_length                    <dbl> 1.64, 1.53, 1.47, 1.53, 1.23, 1.86, 1.…
+    ## $ petal_width                     <dbl> 0.26, 0.37, 0.38, 0.17, 0.26, 0.35, 0.…
+    ## $ sepal_area                      <dbl> 17.5956, 22.1940, 14.2800, 15.9616, 13…
+    ## $ petal_area                      <dbl> 0.4264, 0.5661, 0.5586, 0.2601, 0.3198…
+    ## $ sepal_aspect_ratio              <dbl> 1.513196, 1.353086, 1.821429, 1.348837…
+    ## $ petal_aspect_ratio              <dbl> 6.307692, 4.135135, 3.868421, 9.000000…
+    ## $ sepal_to_petal_length_ratio     <dbl> 3.146341, 3.581699, 3.469388, 3.032680…
+    ## $ sepal_to_petal_width_ratio      <dbl> 13.115385, 10.945946, 7.368421, 20.235…
+    ## $ sepal_petal_length_diff         <dbl> 3.52, 3.95, 3.63, 3.11, 3.62, 3.05, 3.…
+    ## $ sepal_petal_width_diff          <dbl> 3.15, 3.68, 2.42, 3.27, 2.61, 2.84, 3.…
+    ## $ petal_curvature_mm              <dbl> 5.33, 5.90, 5.66, 4.51, 4.03, 6.18, 6.…
+    ## $ petal_texture_trichomes_per_mm2 <dbl> 18.33, 20.45, 24.62, 22.91, 21.56, 18.…
+    ## $ leaf_area_cm2                   <dbl> 53.21, 52.53, 50.25, 50.85, 40.57, 48.…
+    ## $ sepal_area_sqrt                 <dbl> 4.194711, 4.711051, 3.778889, 3.995197…
+    ## $ petal_area_sqrt                 <dbl> 0.6529931, 0.7523962, 0.7473955, 0.510…
+    ## $ area_ratios                     <dbl> 41.26548, 39.20509, 25.56391, 61.36717…
+
+**Understanding Check!:**
+
+What would these variables be classified as? Would you want to mutate
+them at all? If so, why?
+
+- sepal_to_petal_width_ratio:
+- Soil_type:
+- petal_area:
+- Species:
 
 # Exploratory Data Analysis
 
@@ -350,60 +471,54 @@ It is important to run an initial exploratory data analysis to
 understand the distributions of your dataset as the distribution of data
 directly influences the type of statistical analyses to perform.
 
-## Check for NAs in the data
-
-We should start be checking for for NAs in the dataset. NAs within the
-set mean that there are missing data values. Missing data values can
-make the row containing the NA less useful to us as the missing
-information could skew our tests. It is important to consider how
-dropping NAs might affect your analysis, for instance is the NA in a
-section of the data that you are not looking to analyze? Consider the
-possible reasons you might want or not want to drop NAs before doing so.
-In this dataset there are no NAs. If there were though and we did want
-to remove them, we could use the function `drop_na()` to omit those
-rows.
-
 ## Checking Distributions
 
 To explore the distributions of some of the variables we are interested
 in we can use the simple.eda() function to look at the distributions of
-the numerical data.
+the numerical data. The simple.eda() function uses a histogram, boxplot,
+and Q-Q plot to provide a visual representation of the distribution of
+one’s data. When looking at the results for the simple.eda() function,
+look for characteristics of a normal distribution such as bell-shaped
+curve for the histogram, an unskewed boxplot in which the box is
+equidistant from each end of the whiskers, a central median line in the
+boxplot, and data points in the Q-Q plot that align the theoretical
+line. These characteristics represent normality.
 
 ``` r
 simple.eda(iris.raw.data$sepal_area)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$sepal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$sepal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-7-3.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-3.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$petal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-7-4.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-4.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-7-5.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-5.png)<!-- -->
 
 ``` r
 simple.eda(iris.raw.data$petal_area)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-7-6.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-8-6.png)<!-- -->
 
 The results of this preliminary analysis shows that sepal area and sepal
 width are approximately normally distributed as their histograms follow
@@ -487,40 +602,44 @@ data to fit the data into a normal distribution.
 
 ## Log Transform the Data
 
+The code below log transforms the raw data to achieve normality. After
+log transforming the data, confirm the results using the simple.eda()
+function again.
+
 ``` r
 iris.raw.data$log10sepal_length <- log10(iris.raw.data$sepal_length)
 simple.eda(iris.raw.data$log10sepal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 iris.raw.data$log10sepal_width <- log10(iris.raw.data$sepal_width)
 simple.eda(iris.raw.data$log10sepal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-9-2.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
 
 ``` r
 iris.raw.data$log10petal_length <- log10(iris.raw.data$petal_length)
 simple.eda(iris.raw.data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-9-3.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->
 
 ``` r
 iris.raw.data$log10petal_width <- log10(iris.raw.data$petal_width)
 simple.eda(iris.raw.data$log10petal_width)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-9-4.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-10-4.png)<!-- -->
 
 After log transforming the sepal length data, we find that it now
 follows a normal distribution. It is important for a dataset to be
 normally distributed for parametric tests as parametric tests use means
 to calculate statistical differences. Therefore, means need to be
 appropriately representative for a given data set, provided by a normal
-distribution.For instance a mean from a a given population that is
+distribution. For instance, a mean from a given population that is
 skewed is not accurately representative of the data.
 
 After log transforming the petal length data, we found that it did not
@@ -528,6 +647,12 @@ convert into a normal distribution. What aspect of the data do think is
 driving this? After reflection, please see below for an explanation!
 
 ## Filter the data by species:
+
+The filter() function allows one to separate and isolate specific data
+for analysis. Filtering may help organize a dataset because it allows
+one to extract data that aligns with one’s inclusion criteria. Below,
+the tutorial filters the iris data into separate species with the names
+of each species serving as the inclusion criteria for that given filter.
 
 ``` r
 setosa_data <- iris.raw.data |> 
@@ -546,21 +671,24 @@ Now, look at petal length for all three iris species separately:
 simple.eda(setosa_data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 simple.eda(versicolor_data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
 
 ``` r
 simple.eda(virginica_data$log10petal_length)
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-11-3.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-3.png)<!-- -->
 By separating the data by species, we find that the log transformation
-of petal length is now normally distributed.
+of petal length is now normally distributed. Therefore, it is always
+important to check the log transformation of a given variable and
+confirm that it properly transformed the data into a normal
+distribution.
 
 # Running Data Analysis
 
@@ -591,7 +719,7 @@ ggpairs(iris.raw.data, # calls ggpairs and tells it to use our iris dataset
   theme_cowplot() #This applies the cowplot theme which makes the plot look a little neater by doing things such as removing the usual grey grid background.
 ```
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 The above code first loads GGally which is an extension of ggplot2, a
 preferred package for creating graphs. The ggpairs plot provides as a
@@ -823,7 +951,7 @@ ggplot(setosa_data) + # This calls ggplot and tells it we're using the setosa da
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 This graph confirms what our p-values told us before, there does not
 appear to be any linear relationship between petal length and width in
@@ -842,7 +970,7 @@ ggplot(iris.raw.data) + # Same as before but this time we're calling the entire 
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](Project-1-Group-1-Tutorial---v3_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 Similar to what we saw in the GGally plot, we can see that, as the
 p-value indicated, there does seem to be a linear relationship between
@@ -857,7 +985,7 @@ value positions, and changing the colors of the data. For now, it’s…
 
 - What does your data look like? Make your own graph below
 
-# Summary
+# Tutorial Summary
 
 ### Purpose of each type of test:
 
@@ -896,11 +1024,11 @@ another continuous variable (e.g., petal_length).
 
 - Ex: You want to predict sepal_length from petal_length.
 
-*Note:* This will provide an equation for the linear relationship
-between the two variables, which you can use for prediction. The
-summary() function will give you important statistics like the slope,
-intercept, and R-squared value (which shows how much of the variation in
-the response variable is explained by the explanatory variable).
+*Note: This will provide an equation for the linear relationship between
+the two variables, which you can use for prediction. The summary()
+function will give you important statistics like the slope, intercept,
+and R-squared value (which shows how much of the variation in the
+response variable is explained by the explanatory variable).*
 
 **simple eda** - Exploratory Data Analysis (EDA) is the process of
 analyzing data sets to summarize their main characteristics using
@@ -908,7 +1036,7 @@ visualizations and statistical methods. The goal is to better understand
 the structure of the data, detect patterns, spot anomalies, and test
 initial hypotheses.
 
-## When to Use:
+## When to Use What Test:
 
 At the beginning of a data analysis project to explore your dataset and
 get a sense of its structure.
@@ -930,9 +1058,9 @@ crucial.
 
 - Ex: You want to test if the sepal_length is normally distributed.
 
-*Note:* If the p-value is greater than 0.05, the data is approximately
-normal. If the p-value is less than 0.05, the data significantly
-deviates from normality.
+*Note:* *If the p-value is greater than 0.05, the data is approximately
+normal.* *If the p-value is less than 0.05, the data significantly
+deviates from normality.*
 
 ------------------------------------------------------------------------
 
@@ -947,6 +1075,9 @@ I utilized this site for t.test clarification
 For the discussion of the purpose for normal distibutions and
 transforming data so it is normally distributed, the following article
 was used.
+
+For the explanation of the mutate() function
+<https://dplyr.tidyverse.org/reference/mutate.html>
 
 Citation: Mishra, P., Pandey, C. M., Singh, U., Gupta, A., Sahu, C., &
 Keshri, A. (2019). Descriptive statistics and normality tests for
@@ -963,7 +1094,7 @@ Parts:
   tail, nrow, glimpse, NAs) and Rebecca (online download code, NAs)
 - Jayden did the Looking into different variables section, Rebecca
   assisted with factoring code
-- Exploratory Data Analysis section done by Kayla, Rebecca assised with
+- Exploratory Data Analysis section done by Kayla, Rebecca assisted with
   filtering code
 - Running Data Analysis section done by Rebecca
 - Summary done by Jayden
