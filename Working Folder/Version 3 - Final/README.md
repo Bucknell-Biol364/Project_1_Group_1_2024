@@ -12,7 +12,17 @@ Our target audience for this project are fellow BIOL 364 students. Students in t
 
 ## Instructions
 
-This tutorial will use an Iris data set to teach you how to load, explore, and analyze your data. This guided tutorial will walk you through the process, providing you with code examples to modify and run yourself. It provides explanations of code and tests to be run. Be sure to fill in any empty code chunks and places for your analysis and propmpts.
+This tutorial will use an Iris data set to teach you how to load, explore, and analyze your data. This guided tutorial will walk you through the process, providing you with code examples to modify and run yourself. It provides explanations of code and tests to be run. Be sure to fill in any empty code chunks and places for your analysis and prompts.
+
+Although the tutorial itself provides detailed instructions for how to complete the tutorial, to run the tutorial, please follow the instructions below:
+1. Visit the public GITHub Repository (https://github.com/Bucknell-Biol364/Project_1_Group_1_2024.git)
+
+2. Navigate to the "Final" folder.
+
+3. Open the RMD file named "Project 1 Group 1 Tutorial - Final.Rmd".
+
+4. Begin the tutorial! 
+
 
 ## Objectives
 1. Understand how to classify data (understanding different variable types and its effect on how to use them in analysis).
